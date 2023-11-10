@@ -15,10 +15,10 @@ Search for a string in command history
 
 Count lines
 ```	wc -l index.html ```
-
-
-[comment]: # Visualizar el principio/fin de un fichero	
-```head/tail index.html```
+```
+ # Visualizar el principio/fin de un fichero	
+head/tail index.html
+```
 [comment]: # Extraer todas las líneas que tienen una string 	
 ```grep "href=" index.html```
 Cortar una string por un delimitador, filtrar los resultados con grep y ordenarlos	grep "href=" index.html | cut -d "/" -f 3 | grep "\\." | cut -d '"' -f 1 | sort -u
