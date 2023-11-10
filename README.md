@@ -22,6 +22,9 @@ wc -l index.html
  # Visualizar el principio/fin de un fichero	
 head/tail index.html
 
+# Find a search for a file that contains a specific string in it’s name
+find / -name sbd\*
+
 # Extraer todas las líneas que tienen una string 	
 grep "href=" index.html
 
@@ -106,4 +109,48 @@ tcpdump -n -r passwordz.pcap | awk -F" " '{print $3}' | sort -u | head
 
 # Capturar paquetes en el puerto 80
 tcpdump tcp port 80 -w output.pcap -i eth0
+```
+
+### Basic AF git commands
+
+```
+# Enumerar todos los archivos nuevos o modificados que se deben confirmar
+git status
+
+# Toma una instantánea del archivo para preparar la versión
+git add [file]
+
+# Mover el archivo del área de espera, pero preservar su contenido
+git reset [file]
+
+# Registra las instantáneas del archivo permanentemente en el historial de versión
+git commit -m "[descriptive message]"
+
+# Mostrar las diferencias de archivos que no se han enviado aún al área de espera
+git diff
+
+# Mostrar las diferencias del archivo entre el área de espera y la última versión del archivo
+git diff --staged
+
+# Enumerar el historial de la versión para la rama actual
+git log
+
+# Enumerar el historial de versión para el archivo, incluidos los cambios de nombre
+git log --follow [file]
+
+# Producir metadatos y cambios de contenido del commit especificado
+ git show[commit]
+
+# Cambia a la rama especificada y actualiza el directorio activo
+git checkout <commit_hash>
+
+# Establecer el nombre que desea esté anexado a sus transacciones de commit
+git config --global user.name "[name]"
+
+# Establecer el e-mail que desea esté anexado a sus transacciones de commit
+git config --global user.email "[email address]"
+
+# Habilitar la útil colorización del producto de la línea de comando
+git config --global color.ui auto
+
 ```
