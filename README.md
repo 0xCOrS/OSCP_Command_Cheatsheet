@@ -4,7 +4,7 @@ Just a handful of commands I normally use. There a lot of things that are missin
 
 Spanglish included, this is a cheatsheet. 
 
-- ![Misc Commands from Linux](#misc-commands-from-linux)
+- ![Misc Commands from Linux](README.md#misc-commands-from-linux)
    - ![Strings and files manipulation](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#strings-and-files-manipulation)
    - ![Some Netcat (nc, nc.exe, ncat) commands](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#some-netcat-nc-ncexe-ncat-commands)
    - ![Wireshark Filters and pcap related](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#wireshark-filters-and-pcap-related)
