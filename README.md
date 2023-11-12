@@ -4,6 +4,21 @@ Just a handful of commands I normally use. There a lot of things that are missin
 
 Spanglish included, this is a cheatsheet. 
 
+- ![Misc Commands from Linux]()
+   - ![Strings and files manipulation]
+   - ![Some Netcat (nc, nc.exe, ncat) commands ]
+   - ![Wireshark Filters and pcap related]
+   - ![Basic AF git commands]
+   - ![Remote Desktop]
+   - ![Transfer files to windows]
+- ![Port Scanning]
+- ![Web Directory Scanning (and related)]
+- ![DNS Enumeration]
+- ![Enumerar LDAP manualmente usando consola Python]
+- ![Enumerar SMB]
+- ![Enumerar RPC]
+- ![Ataques a Kerberos]
+- 
 ## Misc Commands from Linux
 
 ### Strings and files manipulation
