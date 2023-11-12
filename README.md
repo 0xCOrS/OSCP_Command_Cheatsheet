@@ -261,7 +261,7 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ```
 
-## Enumerar LDAP manualmente usando consola Python
+## Enumerar LDAP manualmente usando consola Python (más en ![Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7))
 
 ```
 >>> import ldap3
@@ -279,7 +279,12 @@ dig axfr  @<DNS_IP> <DOMAIN>
 # Todos los objetos del dominio y susu atributos
 >>> connection.search(search_base='DC=DOMAIN,DC=DOMAIN', search_filter='(&(objectClass=*))', search_scope='SUBTREE', attributes='*')
 >>> connection.entries
-# Búsqueda de usuarios AS_REProastables
->>> connection.search(search_base='DC=DOMAIN,DC=DOMAIN', search_filter='(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))',  search_scope='SUBTREE', attributes='*')
+# Búsqueda de usuarios AS_REProastables (no necesitan pre-autenticación de Kerberos) 
+>>> connection.search(search_base='DC=DOMAIN,DC=DOMAIN', search_filter='(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))', search_scope='SUBTREE', attributes='*')
 >>> connection.entries
-#
+# Búsqueda de usuarios con servicios asociados (Para Kerberoasting)
+>>> connection.search(search_base='DC=DOMAIN,DC=DOMAIN', search_filter='(&(samAccountType=805306368)(servicePrincipalName=*))', search_scope='SUBTREE', attributes='*')
+>>> connection.entries
+# Búsqueda de todos los atributos de un usuario
+>>> connection.search(search_base='cn=users,dc=support,dc=htb',search_filter='(sAMAccountName=<username>)', search_scope='SUBTREE', attributes='*')
+>>> connection.entries
