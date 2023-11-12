@@ -4,20 +4,20 @@ Just a handful of commands I normally use. There a lot of things that are missin
 
 Spanglish included, this is a cheatsheet. 
 
-- ![Misc Commands from Linux]()
-   - ![Strings and files manipulation]
-   - ![Some Netcat (nc, nc.exe, ncat) commands ]
-   - ![Wireshark Filters and pcap related]
-   - ![Basic AF git commands]
-   - ![Remote Desktop]
-   - ![Transfer files to windows]
-- ![Port Scanning]
-- ![Web Directory Scanning (and related)]
-- ![DNS Enumeration]
-- ![Enumerar LDAP manualmente usando consola Python]
-- ![Enumerar SMB]
-- ![Enumerar RPC]
-- ![Ataques a Kerberos]
+- ![Misc Commands from Linux](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#misc-commands-from-linux)
+   - ![Strings and files manipulation](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#strings-and-files-manipulation)
+   - ![Some Netcat (nc, nc.exe, ncat) commands](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#some-netcat-nc-ncexe-ncat-commands)
+   - ![Wireshark Filters and pcap related](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#wireshark-filters-and-pcap-related)
+   - ![Basic AF git commands](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#basic-af-git-commands)
+   - ![Remote Desktop](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#remote-desktop)
+   - ![Transfer files to windows](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#transfer-files-to-windows)
+- ![Port Scanning](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#port-scanning)
+- ![Web Directory Scanning (and related)](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#web-directory-scanning-and-related)
+- ![DNS Enumeration](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#dns-enumeration)
+- ![Enumerar LDAP manualmente usando consola Python](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-ldap-manualmente-usando-consola-python)
+- ![Enumerar SMB](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-smb)
+- ![Enumerar RPC](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-rpc)
+- ![Ataques a Kerberos](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#ataques-a-kerberos)
 - 
 ## Misc Commands from Linux
 
