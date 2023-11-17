@@ -21,6 +21,7 @@ Expect Spanglish, this is a cheatsheet.
 - [RPC Enumeration](#rpc-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
+- [AD Enumeration]
 
 
 ## Misc Commands from Linux
@@ -533,4 +534,59 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 [Back to top](#index)
 
+## AD Enumeration
 
+### Using Legacy Tools (net.exe)
+
+```
+# List Domain users
+net user /domain
+
+# Get info about a specific User
+net user <username> /domain
+
+# List Domain groups
+net group /domain
+
+# Get info about a specific Domain Group
+net group <group_name> /domain
+
+```
+
+### Using PowerView
+
+```
+# Domain Information
+Get-NetDomain
+
+# Domain User objects
+Get-NetUSer
+
+# Domain Users cn attribute
+Get-NetUser | select cn
+
+# Domain Users cn,pwdlastset and lastlogon attributes
+Get-NetUSer | select cn,pwdlastset,lastlogon
+
+# Domain Groups cn attribute
+Get-NetGroup | select cn
+
+# Members of a Domain Group
+Get-NetGroup "<group_name>" | select member
+
+# Computes on the Domain
+Get-NetComputer
+
+# Domain Computers DNSHostName, Operating System and OS Version
+Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
+
+# Check wether a compromised user has LocalAdminRights on other computers of the domain
+Find-LocalAdminAccess
+
+# Check who is logged where (uses 2 Windows API, NetWkstaUserEnum (requires administrative privs) and NetSessionEnum)
+Get-NetSession -ComputerName <computer_dnshostname> -Verbose
+
+# Another way to check it using PsLoggedOn from SysInternals
+.\PsLoggedon.exe \\<computer_dnshostname>
+
+```
