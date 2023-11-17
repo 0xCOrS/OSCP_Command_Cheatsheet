@@ -10,14 +10,14 @@ Spanglish included, this is a cheatsheet.
    - [Wireshark Filters and pcap related](#wireshark-filters-and-pcap-related)
    - [Basic AF git commands](#basic-af-git-commands)
    - [Remote Desktop](#remote-desktop)
-   - [Transfer files to windows](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#transfer-files-to-windows)
-- [Port Scanning](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#port-scanning)
-- [Web Directory Scanning (and related)](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#web-directory-scanning-and-related)
-- [DNS Enumeration](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#dns-enumeration)
-- [Enumerar LDAP manualmente usando consola Python](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-ldap-manualmente-usando-consola-python)
-- [Enumerar SMB](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-smb)
-- [Enumerar RPC](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#enumerar-rpc)
-- [Ataques a Kerberos](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#ataques-a-kerberos)
+   - [Transfer files to windows](#transfer-files-to-windows)
+- [Port Scanning](#port-scanning)
+- [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
+- [DNS Enumeration](#dns-enumeration)
+- [Enumerar LDAP manualmente usando consola Python](#enumerar-ldap-manualmente-usando-consola-python)
+- [Enumerar SMB](#enumerar-smb)
+- [Enumerar RPC](#enumerar-rpc)
+- [Ataques a Kerberos](#ataques-a-kerberos)
 
 
 ## Misc Commands from Linux
@@ -288,7 +288,7 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ## Enumerar LDAP manualmente usando consola Python 
 
-Más filtros de búsqueda LDAP en ![Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
+Más filtros de búsqueda LDAP en [Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
 
 ```
 >>> import ldap3
@@ -424,9 +424,9 @@ netsharegetinfo <share>
 
 ## Ataques a Kerberos
 
-Recomendado ![Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
+Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
 
-Recomendado ![The Hacker Recipes - Kerberos - Delegations](https://www.thehacker.recipes/ad/movement/kerberos/delegations)
+Recomendado [The Hacker Recipes - Kerberos - Delegations](https://www.thehacker.recipes/ad/movement/kerberos/delegations)
 
 ```
 
