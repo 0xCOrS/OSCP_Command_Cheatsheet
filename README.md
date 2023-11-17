@@ -18,12 +18,12 @@ Expect Spanglish, this is a cheatsheet.
 - [SMB Enumeration](#smb-enumeration)
 - [RPC Enumeration](#rpc-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
-- [Hascat, John and HashCracking related](#hascat,john-and-hashcracking-related)
+- [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
 
 
 ## Misc Commands from Linux
 
-(Back to top)[# oscp-command-cheatsheet]
+[Back to top](#oscp_command-cheatsheet)
 
 ### Strings and files manipulation
 
@@ -77,6 +77,8 @@ cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
 ### Some Netcat (nc, nc.exe, ncat) commands 
 
+[Back to top](#oscp_command-cheatsheet)
+
 ```
 
 # Conectarse a otro puerto en otro host
@@ -113,6 +115,8 @@ ncat -v <attacker_ip_Address> 444 --ssl
 
 ### Wireshark Filters and pcap related
 
+[Back to top](#oscp_command-cheatsheet)
+
 ```
 # Filtro para mostrar trafico en puerto SMTP (25) y ICMP
 tcp.port eq 25 or icmp
@@ -135,6 +139,8 @@ tcpdump tcp port 80 -w output.pcap -i eth0
 ```
 
 ### Basic AF git commands
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 
@@ -181,6 +187,8 @@ git config --global color.ui auto
 
 ### Remote Desktop
 
+[Back to top](#oscp_command-cheatsheet)
+
 ```
 
 # Using xfreerdp
@@ -192,6 +200,8 @@ rdesktop ip_address -k es -u user -p pass -d domain
 ```
 
 ### Transfer files to windows
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 # En la máquina kali)
@@ -217,6 +227,8 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 ## Port Scanning
 
+[Back to top](#oscp_command-cheatsheet)
+
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
 
 ```
@@ -230,6 +242,8 @@ map -sS -sV -O -sC --min-rate 1000 -p25,80,110,135,139,143,445,587,5985,47001 -o
 ```
 
 ## Web Directory Scanning (and related)
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 
@@ -254,6 +268,8 @@ go/bin/shortscan http://url
 ```
 
 ## DNS Enumeration
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 # Búsqueda d ehosts con Nmap
@@ -293,6 +309,8 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 ## Manually enumerate LDAP through Python console
 
+[Back to top](#oscp_command-cheatsheet)
+
 More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/jonlabelle/0f8ec20c2474084325a89bc5362008a7) 
 
 ```
@@ -324,6 +342,8 @@ More LDAP search filters available at [Jonlabelle Gist](https://gist.github.com/
 ```
 
 ## SMB Enumeration
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 
@@ -370,6 +390,8 @@ crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoam
 ```
 
 ## RPC Enumeration
+
+[Back to top](#oscp_command-cheatsheet)
 
 ```
 
@@ -429,6 +451,8 @@ netsharegetinfo <share>
 
 ## Kerberos attacks
 
+[Back to top](#oscp_command-cheatsheet)
+
 Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
 
 Recomendado [The Hacker Recipes - Kerberos - Delegations](https://www.thehacker.recipes/ad/movement/kerberos/delegations)
@@ -475,6 +499,8 @@ sudo python /usr/local/bin/ntlmrelayx.py --no-http-server -smb2support -t <targe
 
 ## Hascat, John and HashCracking related
 
+[Back to top](#oscp_command-cheatsheet)
+
 ```
 
 # Hash detection using [Name-That-Hash](https://github.com/HashPals/Name-That-Hash)
@@ -511,6 +537,7 @@ hashcat -m 22951 -a 0 id_rsa.hash rockyou.txt   # $sshng$5$
 # Yescrypt hash cracking
 john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
+```
 
 
 
