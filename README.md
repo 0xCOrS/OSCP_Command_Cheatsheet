@@ -4,12 +4,12 @@ Just a handful of commands I normally use. There a lot of things that are missin
 
 Spanglish included, this is a cheatsheet. 
 
-- [Misc Commands from Linux](README.md#misc-commands-from-linux)
-   - [Strings and files manipulation](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#strings-and-files-manipulation)
-   - [Some Netcat (nc, nc.exe, ncat) commands](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#some-netcat-nc-ncexe-ncat-commands)
-   - [Wireshark Filters and pcap related](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#wireshark-filters-and-pcap-related)
-   - [Basic AF git commands](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#basic-af-git-commands)
-   - [Remote Desktop](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#remote-desktop)
+- [Misc Commands from Linux](#misc-commands-from-linux)
+   - [Strings and files manipulation](#strings-and-files-manipulation)
+   - [Some Netcat (nc, nc.exe, ncat) commands](#some-netcat-nc-ncexe-ncat-commands)
+   - [Wireshark Filters and pcap related](#wireshark-filters-and-pcap-related)
+   - [Basic AF git commands](#basic-af-git-commands)
+   - [Remote Desktop](#remote-desktop)
    - [Transfer files to windows](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#transfer-files-to-windows)
 - [Port Scanning](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#port-scanning)
 - [Web Directory Scanning (and related)](https://github.com/0xCOrS/OSCP_Command_Cheatsheet/blob/main/README.md#web-directory-scanning-and-related)
