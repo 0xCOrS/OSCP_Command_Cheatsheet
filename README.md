@@ -25,7 +25,6 @@ Expect Spanglish, this is a cheatsheet.
 
 ## Misc Commands from Linux
 
-
 ### Strings and files manipulation
 
 ```
