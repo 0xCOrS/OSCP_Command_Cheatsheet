@@ -4,6 +4,8 @@ Just a handful of commands I normally use. There a lot of things that are missin
 
 Expect Spanglish, this is a cheatsheet. 
 
+## Index
+
 - [Misc Commands from Linux](#misc-commands-from-linux)
    - [Strings and files manipulation](#strings-and-files-manipulation)
    - [Some Netcat (nc, nc.exe, ncat) commands](#some-netcat-nc-ncexe-ncat-commands)
