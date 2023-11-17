@@ -536,7 +536,7 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 ## AD Enumeration
 
-### Using Legacy Tools (net.exe)
+### Using Legacy Tools, Default Windows Tools, and Sysinternals Tools
 
 ```
 # List Domain users
@@ -551,6 +551,11 @@ net group /domain
 # Get info about a specific Domain Group
 net group <group_name> /domain
 
+# Check who is logged where PsLoggedOn from SysInternals
+.\PsLoggedon.exe \\<computer_dnshostname>
+
+# Enumerate SPN in the Domain
+setspn -L <username>
 ```
 
 ### Using PowerView
@@ -586,7 +591,18 @@ Find-LocalAdminAccess
 # Check who is logged where (uses 2 Windows API, NetWkstaUserEnum (requires administrative privs) and NetSessionEnum)
 Get-NetSession -ComputerName <computer_dnshostname> -Verbose
 
-# Another way to check it using PsLoggedOn from SysInternals
-.\PsLoggedon.exe \\<computer_dnshostname>
+# Enumerate Domain SPN's
+Get-NetUser -SPN | select camaccountname,serviceprincipalname
+
+# Get an Object's Access Control List
+get-acl -identity samaccountname
+
+# From previous ouput, important attributes are
+- ObjectSID: object which the ACL refers to
+- ActiveDirectoryRights: type of permission applied to the object.
+- SecurityIdentifier: the user object that has the permissions stated in ActiveDirectoryRights over the object.
+
+# To make SIDs human-readable:
+Convert-SidToName <sid_value>
 
 ```
