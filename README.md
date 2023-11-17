@@ -558,6 +558,8 @@ net group <group_name> /domain
 setspn -L <username>
 ```
 
+[Back to top](#index)
+
 ### Using PowerView
 
 ```
@@ -605,4 +607,29 @@ get-acl -identity samaccountname
 # To make SIDs human-readable:
 Convert-SidToName <sid_value>
 
+# Find shares in the domain
+Find-DomainShare
+
 ```
+
+[Back to top](#index)
+
+### Automated Enumeration through Bloodhound and its Data Collectors
+
+More Information about [BloodHound](https://bloodhound.readthedocs.io/en/latest/data-analysis/bloodhound-gui.html) and [Sharphound Collector](https://bloodhound.readthedocs.io/en/latest/data-collection/sharphound.html)
+
+Is is important to check that the Active Sessions information is correctly collected. The collection methods that are included in the DEFAULT and ALL options do not include LOGGEDON because it need to be executed with Local Admin Rights.
+
+Also, the SESSIONS collection method works better if it is combined with the --Loop option (loop duration can also be specified using --LoopDuration)
+
+```
+# Collect Data From a Non-Domain-Joined Computer (our kali)
+bloodhound-python -d <dominio> -u <username> -p <password> -gc <global_catalog_host> -c all -ns <nameserver_ip>
+
+# Collect Data From a Compromised Domain-Joined Computer
+Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "corp audit"    # Using PowerShell Module Sharphound.ps1
+.\sharphound.exe -CollectionMethods ALL    # Using sharphound.exe
+
+```
+
+[Back to top](#index)
