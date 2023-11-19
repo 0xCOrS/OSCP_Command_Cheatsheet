@@ -562,6 +562,22 @@ setspn -L <username>
 
 ### Using PowerView
 
+Some domains will require auth to perform the LDAP queries that PowerView performs. If so, use the *-Credential* flag passing as argument a PSCredentialObject.
+
+Steps to store creds in a PSCredentialObject are the following:
+
+```
+# Define Credentials
+[string]$user = 'admin'
+[string]$pass = 'mySuperSecurePassword'
+
+# Create credential Object
+[SecureString]$secureString = $pass | ConvertTo-SecureString -AsPlainText -Force 
+[PSCredential]$credentialObejct = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureString
+```
+
+Now you are ready to keep enumerating domain objects.
+
 ```
 # Domain Information
 Get-NetDomain
@@ -609,6 +625,7 @@ Convert-SidToName <sid_value>
 
 # Find shares in the domain
 Find-DomainShare
+
 
 ```
 
