@@ -573,7 +573,7 @@ Steps to store creds in a PSCredentialObject are the following:
 
 # Create credential Object
 [SecureString]$secureString = $pass | ConvertTo-SecureString -AsPlainText -Force 
-[PSCredential]$credentialObejct = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureString
+[PSCredential]$credentialObject = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureString
 ```
 
 Now you are ready to keep enumerating domain objects.
