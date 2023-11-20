@@ -225,6 +225,82 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 [Back to top](#index)
 
+## Windows Comands to enumerate the system
+
+```
+# Username
+whoami
+
+# Hostname
+hostname
+
+# Group memberships of current user
+whoami /groups
+
+# Other users on the machine
+Get-LocalUser
+net user
+
+# Other groups on the machine
+Get-LocalGroup
+net localgroup
+
+# Members of other groups
+Get-LocalgroupMember <group_name>
+net localgroup <group_name>
+
+# OS, OS Version, Architecture and more
+systeminfo
+
+# Network Configurations
+ipconfig /all
+
+# Routing table
+route print
+
+# List active network connections
+netstat -ano
+
+# List installed applications
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname  # 32-bit applications
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname # 64-bit applications
+wmic product get name,version
+
+# Running Processes
+Get-Process
+tasklist
+
+# Services
+Get-Service
+
+# Recursively search for files under 'C:\' directory with a specific extension
+Get-ChildItem -Path C:\ -Include *.kdbx,*.ini,*.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue
+
+# Get the content of a file
+Get-Content <filename> # type and cat are aliases for Get-Content in powershell
+type <filename>
+cat <filename>
+more <filename> 
+
+# Execute command as another user, GUI access needed.
+runas /user:backupadmin cmd
+
+# Command History for current user in Powershell
+Get-History
+
+# Delete the command History for current user (however, it will still be available in ConsoleHost_History.txt file)
+Clear-History
+
+#  Get the content of ConsoleHost_History.txt if it is available.
+Get-Content ((Get-PSReadLineOption).HistorySavePath)
+
+# Prevent PSReadLine from recording commands
+Set-PSReadLineOption -HistorySaveStyle SaveNothing
+
+```
+
+[Back to top](#index)
+
 ## Port Scanning
 
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
