@@ -13,6 +13,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Basic AF git commands](#basic-af-git-commands)
    - [Remote Desktop](#remote-desktop)
    - [Transfer files to windows](#transfer-files-to-windows)
+- [Windows Enumeration](#windows-enumeration)
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
