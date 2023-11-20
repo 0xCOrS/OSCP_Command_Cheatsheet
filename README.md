@@ -225,7 +225,7 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 [Back to top](#index)
 
-## Windows Comands to enumerate the system
+## Windows Enumeration
 
 ```
 # Username
