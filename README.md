@@ -29,7 +29,10 @@ Expect Spanglish, this is a cheatsheet.
 - [Kerberos Attacks](#kerberos-attacks)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
 - [AD Enumeration](#ad-enumeration)
-
+   - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
+   - [Using PowerView](#using-powerview)
+   - [Automated enumeration with Bloodhound](#automated-enumeration-through-bloodhound-and-its-data-collectors)
+ 
 
 ## Misc Commands from Linux
 
