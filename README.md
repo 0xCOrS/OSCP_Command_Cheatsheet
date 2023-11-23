@@ -296,6 +296,9 @@ whoami /groups
 Get-LocalUser
 net user
 
+# Users logged on to the machine
+Get-WmiObject Win32_LoggedOnUser -ComputerName client01 | Select Antecedent -Unique
+
 # Other groups on the machine
 Get-LocalGroup
 net localgroup
