@@ -31,6 +31,7 @@ Expect Spanglish, this is a cheatsheet.
 - [Tunneling and Port Forwarding](#tunneling-and-port-forwarding)
    - [Using Socat](#using-socat)
    - [Using OpenSSH](#using-openssh)
+   - [Using Chisel](#using-chisel)
 - [AD Enumeration](#ad-enumeration)
    - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
    - [Using PowerView](#using-powerview)
@@ -757,13 +758,21 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 #### Local Port Forwarding
 
-Listen on Port X of Machine A, and forward connections to Port Y of Machine B
+Listen on Port_X of Machine_A, and forward connections to Port_Y of Machine_B
 
-On machine A execute:
+On Machine_A execute:
 
 `socat -ddd TCP-LISTEN:<Local_PORT_X>,fork TCP:<IP_Address_Machine_B>:<Remote_PORT_Y>` 
 
 Flag *-ddd* is added for verbosity
+
+#### Dynamic Port Forwarding
+
+*TO DO*
+
+#### Remote Port Forwarding
+
+*TO DO*
 
 [Back to top](#index)
 
@@ -771,23 +780,49 @@ Flag *-ddd* is added for verbosity
 
 #### Local Port Forwarding
 
-Establish SSH connection/tunnel from Port X of machine A to Port Y of machine B and Forward to Port Z of Machine C.
+Establish SSH connection/tunnel from Port_X of Machine_A to Port_Y of Machine_B and Forward to Port_Z of Machine_C.
 
 Then from our Kali we will be able to access Port Z Machine C by connecting to Port X of Machine A.
 
-On machine A execute:
+On Machine_A execute:
 
 `ssh -Nf -L 0.0.0.0:<PORT_X>:<IP_ADDR_Machine_C>:<PORT_Z> user@<IP_ADDR_Machine_B>`
 
 #### Dynamic Port Forwarding
 
-Forward all packets recevied at Port X Machine A through Machine B. 
+Forward all packets recevied at Port_X Machine_A through Machine_B. 
 
-*-D* option of SSH creates a SOCKS proxy on the listening port X of Machine A that sends the traffic through SSH tunnel to the Machine B, allowing us to reach hosts on the subnets that Machine B have access to.
+*-D* option of SSH creates a SOCKS proxy on the listening Port_X of Machine_A that sends the traffic through SSH tunnel to the Machine_B, allowing us to reach hosts on the subnets that Machine_B have access to.
+
+On Machine_A execute:
 
 `ssh -D -Nf 0.0.0.0:<PORT_X> <user>@<IP_ADDR_Machine_B>`
 
 #### Remote Port Forwarding
+
+In this case, we will connect from our Kali_Machine, through Machine_A, to Port_Y Machine_B. However, there is a Firewall between Kali_Machine and Machine_A that denys any inbound traffic and allows outbound traffic. As a result, we need to initiate an outbound connection from Machine_A to Kali_Machine. To do so, we will configure our Kali as SSH Server and Machine_A as SSH Client.
+
+The trick is to initiate an outgoing ssh tunnel from Machine_A to Port_K of Kali_Machine. On Kali_Machine, packets will be received at Port_K and forwarded back through the ssh tunnel to Machine_A from where they can reach PORT_Y of Machine_B.
+
+On Machine_A execute:
+
+`ssh -Nf -R <localhost>:<PORT_K>:<IP_ADDR_Machine_B>:<PORT_Y> kali_user@<IP_ADDR_Kali_Machine>` 
+
+Localhost refers to loopback interface on the SSH Server that is our Kali_Machine.
+
+#### Remote Dynamic Port Forwarding
+
+This case is a combination between Remote and Dynamic Port forwarding. We want to be able to connect from our Kali_Machine to any host on the subnets that Machine_A has access to. However, firewalls deny inbound traffic but allow outbound traffic.
+
+Again, we will initiate an outgoing ssh tunnel from Machine_A to Port_K of Kali_Machine (that will act as SOCKS proxy), all traffic received on Port_K of Kali_Machine will be forwarded through the ssh tunnel to Machine_A from where they can reach any host of the subnets that Machine_A has access to.
+
+On Machine_A, execute:
+
+`ssh -Nf -R <PORT_K> kali_user@<IP_ADDR_Kali_Machine>`
+
+[Back to top](#index)
+
+### Using Chisel
 
 *TO DO*
 
