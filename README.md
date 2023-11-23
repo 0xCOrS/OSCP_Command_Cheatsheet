@@ -522,6 +522,11 @@ dig axfr @<DNS_IP>
 # Transferencia de zona especificandeo nombre de dominio
 dig axfr  @<DNS_IP> <DOMAIN>
 
+# With powershell, get the info of a specific zone on the DNS Server
+ get-dnsserverresourcerecord -ComputerName <computer_name> -ZoneName zone1.domain.com
+
+# Extract the A registers of a specific DNS Zone
+get-dnsserverresourcerecord -ComputerName <computer_name> -ZoneName zone1.domain.com -RRType A
 ```
 
 [Back to top](#index)
