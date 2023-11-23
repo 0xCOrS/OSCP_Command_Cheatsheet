@@ -28,6 +28,9 @@ Expect Spanglish, this is a cheatsheet.
 - [RPC Enumeration](#rpc-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
+- [Tunneling and Port Forwarding](#tunneling-and-port-forwarding)
+   - [Using Socat](#using-socat)
+   - [Using OpenSSH](#using-openssh)
 - [AD Enumeration](#ad-enumeration)
    - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
    - [Using PowerView](#using-powerview)
@@ -745,6 +748,48 @@ hashcat -m 22951 -a 0 id_rsa.hash rockyou.txt   # $sshng$5$
 john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 ```
+
+[Back to top](#index)
+
+## Tunneling and Port Forwarding
+
+### Using Socat
+
+#### Local Port Forwarding
+
+Listen on Port X of Machine A, and forward connections to Port Y of Machine B
+
+On machine A execute:
+
+`socat -ddd TCP-LISTEN:<Local_PORT_X>,fork TCP:<IP_Address_Machine_B>:<Remote_PORT_Y>` 
+
+Flag *-ddd* is added for verbosity
+
+[Back to top](#index)
+
+### Using OpenSSH
+
+#### Local Port Forwarding
+
+Establish SSH connection/tunnel from Port X of machine A to Port Y of machine B and Forward to Port Z of Machine C.
+
+Then from our Kali we will be able to access Port Z Machine C by connecting to Port X of Machine A.
+
+On machine A execute:
+
+`ssh -Nf -L 0.0.0.0:<PORT_X>:<IP_ADDR_Machine_C>:<PORT_Z> user@<IP_ADDR_Machine_B>`
+
+#### Dynamic Port Forwarding
+
+Forward all packets recevied at Port X Machine A through Machine B. 
+
+*-D* option of SSH creates a SOCKS proxy on the listening port X of Machine A that sends the traffic through SSH tunnel to the Machine B, allowing us to reach hosts on the subnets that Machine B have access to.
+
+`ssh -D -Nf 0.0.0.0:<PORT_X> <user>@<IP_ADDR_Machine_B>`
+
+#### Remote Port Forwarding
+
+*TO DO*
 
 [Back to top](#index)
 
