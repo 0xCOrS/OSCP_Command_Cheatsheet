@@ -800,8 +800,6 @@ On Machine_A execute:
 
 #### Remote Port Forwarding
 
-*For this to be possible Machine_A needs to have OpenSSH Version 7.6 (or higher)*
-
 In this case, we will connect from our Kali_Machine, through Machine_A, to Port_Y Machine_B. However, there is a Firewall between Kali_Machine and Machine_A that denys any inbound traffic and allows outbound traffic. As a result, we need to initiate an outbound connection from Machine_A to Kali_Machine. To do so, we will configure our Kali as SSH Server and Machine_A as SSH Client.
 
 The trick is to initiate an outgoing ssh tunnel from Machine_A to Port_K of Kali_Machine. On Kali_Machine, packets will be received at Port_K and forwarded back through the ssh tunnel to Machine_A from where they can reach PORT_Y of Machine_B.
@@ -813,6 +811,8 @@ On Machine_A execute:
 Localhost refers to loopback interface on the SSH Server that is our Kali_Machine.
 
 #### Remote Dynamic Port Forwarding
+
+*For this to be possible Machine_A needs to have OpenSSH Version 7.6 (or higher)*
 
 This case is a combination between Remote and Dynamic Port forwarding. We want to be able to connect from our Kali_Machine to any host on the subnets that Machine_A has access to. However, firewalls deny inbound traffic but allow outbound traffic.
 
