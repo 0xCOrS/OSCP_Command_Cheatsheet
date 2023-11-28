@@ -467,6 +467,9 @@ map -sS -sV -O -sC --min-rate 1000 -p25,80,110,135,139,143,445,587,5985,47001 -o
 # GoBuster
 gobuster dir -u <URL> -w <wordlist> -x <desired_extensions> -k
 
+# Virtual hosts search
+ffuf -u <URL> -H "Host: FUZZ.example.com" -w <wordlist> -fs <page_size>
+
 # FeroxBuster (makes the search recursively)
 feroxbuster -k -u <url> -x php -o <output> -w <wordlist>
 
