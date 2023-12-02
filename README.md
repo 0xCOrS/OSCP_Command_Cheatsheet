@@ -20,6 +20,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Installed Software, Services and Process](#installed-software-services-and-process)
    - [Service Binary Hijacking](#service-binary-hijacking)
    - [Service DLL Hijacking](#service-dll-hijacking)
+   - [*SeImpersonatePrivilege*](#seimpersonateprivilege)
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
