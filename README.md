@@ -239,6 +239,17 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 
 [Back to top](#index)
 
+### Network Information
+
+```
+# Listening ports
+ss -t -l -n 2>/dev/null
+netstat -ntpl 2>/dev/null
+
+```
+
+[Back to top](#index)
+
 ## Windows Enumeration
 
 ### Windows Misc Commands
