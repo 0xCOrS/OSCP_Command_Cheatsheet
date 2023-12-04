@@ -308,6 +308,10 @@ whoami /groups
 Get-LocalUser
 net user
 
+# Add administrator user to a machine
+net user escalateAsFck DontLookDown123! /add
+net localgroup administrators escalateAsFck /add
+
 # Users logged on to the machine
 Get-WmiObject Win32_LoggedOnUser -ComputerName client01 | Select Antecedent -Unique
 
