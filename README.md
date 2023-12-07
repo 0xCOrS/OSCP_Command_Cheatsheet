@@ -369,6 +369,9 @@ sc.exe query
 Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\*
 wmic.exe service get name
 
+#Services with unquoted path (in cmd)
+wmic service get name,pathname |  findstr /i /v "C:\Windows\\" | findstr /i /v """
+
 ```
 
 [Back to top](#index)
