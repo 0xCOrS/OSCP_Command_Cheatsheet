@@ -888,7 +888,7 @@ netsharegetinfo <share>
 
 ## SNMP Enumeration
 
-|Windows MIB Values|
+|*Windows* MIB Values | Meaning|
 |----------|-----------|
 |1.3.6.1.2.1.25.1.6.0 |System Processes|
 |1.3.6.1.2.1.25.4.2.1.2 |Running Programs|
