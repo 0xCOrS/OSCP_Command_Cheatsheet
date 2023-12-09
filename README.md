@@ -98,6 +98,12 @@ cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 ### Some Netcat (nc, nc.exe, ncat) commands 
 
 ```
+# TCP Scan (-z flag for Zero I/O mode)
+nc -nvv -w <timeout_in_seconds> -z <IP_ADDR> INITIAL_PORT_NUMBER-FINAL_PORT_NUMBER
+
+# UDP Scan (-z flag for Zero I/O mode)
+nc -nv -u -z -w 1 <IP_ADDR> INITIAL_PORT_NUMBER-FINAL_PORT_NUMBER
+
 # Conectarse a otro puerto en otro host
 nc -nv <ip_address> 110
 
@@ -289,6 +295,12 @@ shutdown /r /t 0
 net start/stop <service_name>
 Start-Service -NAme <service_name>
 Stop-Service -Name <service_name>
+
+# Test if a port is open on a remote host
+Test-Connection -Port 445 <IP_ADDR>
+
+# Perform a port scan using powershell (and scanning only first 1024 ports)
+1..1024 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("<IP_ADDR>", $_)) "TCP port $_ is open"} 2>$null
 
 ```
 
@@ -616,8 +628,19 @@ This only contains what I normally use, there are more options available at [S4v
 sudo nmap -sS -p- --min-rate 10000 -oN hostnameOpenPorts hostname
 
 # Servicios y versiones
-map -sS -sV -O -sC --min-rate 1000 -p25,80,110,135,139,143,445,587,5985,47001 -oN hostnameServiceVersions hostname
+map -sS -sV -O -sC --min-rate 1000 -p<port1,port2,port3...> -oN hostnameServiceVersions hostname
 
+# SynScan + UDP Scan
+nmap -sU -sS <ip_addr>
+
+# Discover Hosts and save data in greppable format
+nmap -v -sn 192.168.x.1-253 -oG hostDiscovery.txt
+
+# Extract Active hosts from previously saved scan output
+grep Up hostDiscovery.txt | cut -d " " -f 2
+
+# Discover active hosts by checking the most used 20 ports (flag -A for agressive scan to detect Servie Versions and OS detection)
+nmap -sS -A --top-ports=20 X.X.X.1-253 -oG hostDiscovery.txt
 ```
 
 [Back to top](#index)
@@ -653,10 +676,16 @@ go/bin/shortscan http://url
 ## DNS Enumeration
 
 ```
-# Búsqueda d ehosts con Nmap
+# Search IP address of a hostname (A record)
+host www.<domain>.com
+
+#Search any type or Record (A,MX,TXT,AAAA)
+host -t <record_type> domain.com
+
+# Búsqueda de hosts con Nmap
 nmap -F --dns-server <dns server ip> <target ip range>
 
-# Consulta DNS normal
+# Consulta DNS registro A
 dig A @nameserver_ip domain-name-here.com 
 
 # Any information
@@ -691,6 +720,19 @@ dig axfr  @<DNS_IP> <DOMAIN>
 
 # Extract the A registers of a specific DNS Zone
 get-dnsserverresourcerecord -ComputerName <computer_name> -ZoneName zone1.domain.com -RRType A
+
+# Automatically extract DNS info with DNSRECON
+dnsrecon -d <domain.name> -t std
+
+# Automatically extract DNS info with DNSENUM
+dnsenum <domain.name>
+
+# Using nslookup to extract A records
+nslookup <domain.name>
+
+# Using nslookup against a specific DNServer to extract records of domain
+nslookup -type=<Record_Type_A/AAAA/TXT/MX/ANY> domain.name <specific_DNS_IP_ADD>
+
 ```
 
 [Back to top](#index)
