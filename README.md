@@ -885,6 +885,31 @@ netsharegetinfo <share>
 
 [Back to top](#index)
 
+## SNMP Enumeration
+
+|Windows MIB Values|
+---------------------
+|1.3.6.1.2.1.25.1.6.0 |System Processes|
+|1.3.6.1.2.1.25.4.2.1.2 |Running Programs|
+|1.3.6.1.2.1.25.4.2.1.4 | Processes Path|
+|1.3.6.1.2.1.25.2.3.1.4 | Storage Units|
+|1.3.6.1.2.1.25.6.3.1.2 | Software Name|
+|1.3.6.1.4.1.77.1.2.25 | User Accounts|
+|1.3.6.1.2.1.6.13.1.3 | TCP Local Ports|
+
+```
+# Scan for Hosts with UDP Port 161 open
+sudo nmap  -sU -p161 <ip_addr>
+
+# Enumerate entire Management Information Base tree using Community String: public and timeout of 10 seconds
+snmpwalk -c public -v1 -t 10 <ip_ADDR>
+
+# Enumerate a specific Branch of the MIB Tree (in this case Running Programs, branch can be selected from table above)
+snmpwalk -c public -v1 <IP_ADDR> 1.3.6.1.2.1.25.4.2.1.2
+```
+
+[Back to top](#index)
+
 ## Kerberos attacks
 
 Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
