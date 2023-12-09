@@ -31,6 +31,7 @@ Expect Spanglish, this is a cheatsheet.
 - [Manually enumerate LDAP through Python console](#manually-enumerate-ldap-through-python-console)
 - [SMB Enumeration](#smb-enumeration)
 - [RPC Enumeration](#rpc-enumeration)
+- [SNMP Enumeration](#snmp-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
 - [Tunneling and Port Forwarding](#tunneling-and-port-forwarding)
@@ -888,7 +889,7 @@ netsharegetinfo <share>
 ## SNMP Enumeration
 
 |Windows MIB Values|
----------------------
+|---------------------|
 |1.3.6.1.2.1.25.1.6.0 |System Processes|
 |1.3.6.1.2.1.25.4.2.1.2 |Running Programs|
 |1.3.6.1.2.1.25.4.2.1.4 | Processes Path|
