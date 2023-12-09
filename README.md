@@ -297,7 +297,7 @@ Start-Service -NAme <service_name>
 Stop-Service -Name <service_name>
 
 # Test if a port is open on a remote host
-Test-Connection -Port 445 <IP_ADDR>
+Test-NetConnection -Port 445 <IP_ADDR>
 
 # Perform a port scan using powershell (and scanning only first 1024 ports)
 1..1024 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("<IP_ADDR>", $_)) "TCP port $_ is open"} 2>$null
@@ -628,7 +628,7 @@ This only contains what I normally use, there are more options available at [S4v
 sudo nmap -sS -p- --min-rate 10000 -oN hostnameOpenPorts hostname
 
 # Servicios y versiones
-map -sS -sV -O -sC --min-rate 1000 -p<port1,port2,port3...> -oN hostnameServiceVersions hostname
+nmap -sS -sV -O -sC --min-rate 1000 -p<port1,port2,port3...> -oN hostnameServiceVersions hostname
 
 # SynScan + UDP Scan
 nmap -sU -sS <ip_addr>
@@ -641,6 +641,9 @@ grep Up hostDiscovery.txt | cut -d " " -f 2
 
 # Discover active hosts by checking the most used 20 ports (flag -A for agressive scan to detect Servie Versions and OS detection)
 nmap -sS -A --top-ports=20 X.X.X.1-253 -oG hostDiscovery.txt
+
+# Nmap script scan (Scripts located under /usr/share/nmap/scripts)
+nmap --script <script-title> <ip_addr>
 ```
 
 [Back to top](#index)
@@ -816,6 +819,9 @@ crackmapexec smb 192.168.10.11 [-d Domain] -u Administrator -H <NTHASH> -x whoam
 
 # Add a new share
 NET USE f: \\SRVDC\Datos /PERSISTENT:YES /user:dom\Admin P@ssword
+
+# Query a specific server to get available shares
+net view \\hostname /all (-all flag is specified to list also the administrative shares, the ones with $ at the end)
 ```
 
 [Back to top](#index)
