@@ -92,6 +92,9 @@ cat index.html | grep -o 'http://\[^"\]\*' | cut -d "/" -f 3 | sort –u > list.
 # Ordenar por frecuencia y mostrar todas las IP's presentes en un fichero LOG
 cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
+# Starting WebDAV server
+wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root <path_to_wherever>
+
 #Upload file to webdav server
 curl -X PUT <url> -T /path/to/local/file
 
