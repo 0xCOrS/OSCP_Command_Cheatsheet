@@ -92,6 +92,9 @@ cat index.html | grep -o 'http://\[^"\]\*' | cut -d "/" -f 3 | sort –u > list.
 # Ordenar por frecuencia y mostrar todas las IP's presentes en un fichero LOG
 cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
+#Upload file to webdav server
+curl -X PUT <url> -T /path/to/local/file
+
 ```
 
 [Back to top](#index)
