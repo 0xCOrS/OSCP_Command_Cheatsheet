@@ -277,11 +277,11 @@ netstat -ntpl 2>/dev/null
 
 ## Linux Enumeration
 
-### Users
+### Users & Groups
 */etc/passwd* file contains info about system users. File is structured in different lines, each one containing info about users with following fields:
 
 |Field|Example Value|Description|
-|----------------------------------|
+|-----|------------|-------------|
 |Login Name| "joe" | Indicates the username used for login.|
 |Encrypted Password| "x" | This field typically contains the hashed version of the user's password. In this case, the value x means that the entire password hash is contained in the /etc/shadow file (more on that shortly)|
 |UID| "1000" | Aside from the root user that has always a UID of 0, Linux starts counting regular user IDs from 1000. This value is also called real user ID|
@@ -298,10 +298,103 @@ id
 # Local users
 cat /etc/passwd | grep -v nologin | grep -v /bin/false | cut -d':' -f1  # Display just the username of users with configured login shell
 
+# Local Groups
+groups # get the groups to which the current user belongs to.
+cat /etc/group # Get all the local groups-
 
+```
 
+[Back to top](#index)
 
+### System Information
+```
+# Hostname
+hostname
 
+# OS Info
+cat /etc/issue	 # OS Version
+cat /etc/os-release	 # Release related info.
+uname -a 	# OS Kernel Version and architecture
+
+# DPKG installed apps
+dpkg -l
+```
+
+[Back to top](#index)
+
+### Running Processes
+
+```
+# Process
+ps aux	# Processes with tty, including other users (a), in user-oriented format (u), and without controlling ttys.
+ps -ef	# All process (-e) and in full format listing (-f)
+top
+
+# Cron Jobs
+ls -lah /etc/cron*	# List hourly,daily,weekly,monthly cron jobs
+crontab -l	# Running with root (sudo) privileges may impact the results. Scheduled Cron jobs for current user.
+```
+
+[Back to top](#index)
+
+### Network Info
+```
+# Show Listening Ports
+netstat -tulpen		# Get all listening (-l) TCP/UDP (-tu) ports, displaying program/PID (-p), extended info (-e) and showing address in numeric way (-n)
+
+# Show all connections
+ss -anp	# Show all connections (-a), avoid hostname resolution (-n) and listing program/PID (-p)
+netstat -ano	# Show all connections (-a), non-numeric way (-n) and displaying timers (-o)
+
+# Firewall Rules (may require Root Privileges)
+cat /etc/iptables/rules.v4
+
+# IP Routing table
+ip route
+route
+routel
+
+# ARP Table
+arp -v # Get ARP cache
+```
+
+[Back to top](#index)
+
+### FileSystem Related
+```
+# Find writable directories
+find / -writable -type d 2>/dev/null	# To get writable files change -type to *f*
+
+# Get all drives that will be omunted at boot time
+cat /etc/fstab
+
+# Get all mounted filesystems
+mount
+
+# Get all available disks
+lsblk
+
+# Get loaded kernel modules
+lsmod
+
+# Get more info about a specific kernel module
+/sbin/modinfo <module_name>
+
+# Get SUID binaries
+find / -perm -u=s -type f 2>/dev/null
+
+# Get SGID binaries
+find / -perm -g=s -type f 2>/dev/null
+```
+
+[Back to top](#index)
+
+### Automated Enumeration Scripts
+
+There are different alternatives:
+1. [linpeas.sh](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)
+2. [linenum.sh](https://github.com/rebootuser/LinEnum)
+3. unix-privesc-check (included in Kali) 
 
 [Back to top](#index)
 
