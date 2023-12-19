@@ -281,7 +281,7 @@ netstat -ntpl 2>/dev/null
 */etc/passwd* file contains info about system users. File is structured in different lines, each one containing info about users with following fields:
 
 |Field|Example Value|Description|
-----------------------------------
+|----------------------------------|
 |Login Name| "joe" | Indicates the username used for login.|
 |Encrypted Password| "x" | This field typically contains the hashed version of the user's password. In this case, the value x means that the entire password hash is contained in the /etc/shadow file (more on that shortly)|
 |UID| "1000" | Aside from the root user that has always a UID of 0, Linux starts counting regular user IDs from 1000. This value is also called real user ID|
