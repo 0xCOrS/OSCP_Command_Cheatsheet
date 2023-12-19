@@ -20,7 +20,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Running Processes & CronJobs](#running-processes)
    - [Network Info](#network-info)
    - [Filesystem Related](#filesystem-related)
-   - [Automated Enumeration](#automated-enumeration-script)
+   - [Automated Enumeration](#automated-enumeration-scripts)
 - [Windows Enumeration](#windows-enumeration)
    - [Windows Misc Commands](#windows-misc-commands)
    - [Users and Groups](#users-and-groups)
