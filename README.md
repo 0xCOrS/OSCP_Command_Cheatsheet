@@ -275,6 +275,36 @@ netstat -ntpl 2>/dev/null
 
 [Back to top](#index)
 
+## Linux Enumeration
+
+### Users
+*/etc/passwd* file contains info about system users. File is structured in different lines, each one containing info about users with following fields:
+
+|Field|Example Value|Description|
+----------------------------------
+|Login Name| "joe" | Indicates the username used for login.|
+|Encrypted Password| "x" | This field typically contains the hashed version of the user's password. In this case, the value x means that the entire password hash is contained in the /etc/shadow file (more on that shortly)|
+|UID| "1000" | Aside from the root user that has always a UID of 0, Linux starts counting regular user IDs from 1000. This value is also called real user ID|
+|GID| "1000" | Represents the user's specific Group ID|
+|Comment| "joe,,," | This field generally contains a description about the user, often simply repeating username information|
+|Home Folder| "/home/joe" | Describes the user's home directory prompted upon login|
+|Login Shell| "/bin/bash" | Indicates the default interactive shell, if one exists|
+
+```
+# Current user
+whoami
+id
+
+# Local users
+cat /etc/passwd | grep -v nologin | grep -v /bin/false | cut -d':' -f1  # Display just the username of users with configured login shell
+
+
+
+
+
+
+[Back to top](#index)
+
 ## Windows Enumeration
 
 ### Windows Misc Commands
