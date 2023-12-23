@@ -1091,6 +1091,31 @@ snmpwalk -c public -v1 <IP_ADDR> 1.3.6.1.2.1.25.4.2.1.2
 
 [Back to top](#index)
 
+## SMTP Enumeration (25,465,587)
+
+```
+# Scan with nmap
+nmap -p25 --script smtp-commands <IP_ADDR>
+nmap -p25 --script smtp-open-relay <IP_ADDR> -v
+nmap -p25 --script smtp-* <IP_ADDR>
+
+# Connect
+telnet <ip_addr> 25
+
+# Salute
+HELO falsedom.com
+
+# Check if NTLM Auth is enabled
+AUTH NTLM 334
+
+# Check if user exists
+VRFY root
+EXPN root
+```
+
+
+[Back to top](#index)
+
 ## Kerberos attacks
 
 Recomendado [Tarlogic - ¿Cómo atacar Kerberos?](https://www.tarlogic.com/es/blog/como-atacar-kerberos/#Kerberoasting)
