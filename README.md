@@ -41,6 +41,7 @@ Expect Spanglish, this is a cheatsheet.
 - [RPC Enumeration](#rpc-enumeration)
 - [SNMP Enumeration](#snmp-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
+- [Bruteforcing with Hydra](#bruteforce-hydra)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
 - [Tunneling and Port Forwarding](#tunneling-and-port-forwarding)
    - [Using Socat](#using-socat)
