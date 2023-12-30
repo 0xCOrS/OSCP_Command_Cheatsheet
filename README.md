@@ -1228,6 +1228,8 @@ john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 keepass2john database.kdbx
 hashcat -m 13400 keepass.hash rockyou.txt -r rockyou-30000.rule --force
 
+# Extracting hashes from SAM and SYSTEM files With impacket-secretsdump
+impacket-secretsdump LOCAL -sam SAM -system SYSTEM
 ```
 
 [Back to top](#index)
