@@ -581,8 +581,8 @@ Check permissions over the binary
 # Get Service Binary Permissions
 Get-ACL 
 icacls "binary.exe"
-
-## Permissions
+```
+#### Permissions
 A sequence of simple rights:
 
         F (full access)
@@ -621,7 +621,7 @@ Inheritance rights may precede either Perm form, and they are applied only to di
         (IO): inherit only
         (NP): do not propagate inherit
         (I): permission inherited from parent container
-```
+
 
 If the binary can be modified, then:
 
