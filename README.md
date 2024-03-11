@@ -26,7 +26,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Users and Groups](#users-and-groups)
    - [Os info and Network Config](#os-info-and-network-config)
    - [Installed Software, Services and Process](#installed-software-services-and-process)
-   - [Service Binary Hijacking](#service-binary-hijacking)
+   - [Insecure Permissions for Service File](#insecure-permissions-for-service-file)
    - [Service DLL Hijacking](#service-dll-hijacking)
    - [*SeImpersonatePrivilege*](#seimpersonateprivilege)
 - [AD Enumeration](#ad-enumeration)
