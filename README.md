@@ -616,7 +616,7 @@ Inheritance rights may precede either Perm form, and they are applied only to di
 
 [Back to top](#index)
 
-### Service Binary Hijacking
+### Insecure Permissions for Service File
 
 Check permissions over the binary
 
