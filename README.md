@@ -81,7 +81,7 @@ grep "href=" index.html
 grep "href=" index.html | cut -d "/" -f 3 | grep "\\." | cut -d '"' -f 1 | sort -u
 
 # Sustituir una determinada cadena por otra
-cat algo.txt | awk '{sub(/<cadena_a_sustituir>/,<cadena_a_introducir>);print}'
+cat algo.txt | awk '{gsub(/<cadena_a_sustituir>/,<cadena_a_introducir>);print}'
 
 # Eliminar columna de un fichero de texto delimitada por un separador
 cat algo.txt | awk -F: '{print $1":"$3}'
