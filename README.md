@@ -509,7 +509,7 @@ net user escalateAsFck DontLookDown123! /add
 net localgroup administrators escalateAsFck /add
 
 # Users logged on to the machine
-Get-WmiObject Win32_LoggedOnUser -ComputerName client01 | Select Antecedent -Unique
+Get-WmiObject Win32_LoggedOnUser -ComputerName <client01> | Select Antecedent -Unique
 
 # Other groups on the machine
 Get-LocalGroup
@@ -554,6 +554,10 @@ Get-AppxPackage ?AllUsers | Select Name, PackageFullName
 # Running Processes
 Get-Process
 tasklist
+Tasklist /SVC #List processes running and services
+tasklist /v /fi "username eq system" #Filter "system" processes
+Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize #With allowed Usernames
+Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id #Without usernames
 
 # Services
 Get-Service
@@ -561,10 +565,10 @@ Get-CimInstance -Class win32_service | select Name,State,StartMode,PathName | Wh
 Get-CimInstance -Class win32_service | select Name,State,StartMode,PathName | where-object {$_.PathName -notlike "*system32*"} #List only service which binary is not located on system32 folder
 sc.exe query
 Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\*
+wmic service list brief
 wmic.exe service get name
-
-#Services with unquoted path (in cmd)
-wmic service get name,pathname |  findstr /i /v "C:\Windows\\" | findstr /i /v """
+wmic service get name,pathname |  findstr /i /v "C:\Windows\\" | findstr /i /v """ #Services with unquoted path (in cmd)
+sc.exe qc <service_name>
 
 #Scheduled Tasks
 schtasks /query /fo LIST /v
