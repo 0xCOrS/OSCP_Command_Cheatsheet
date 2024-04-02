@@ -1018,6 +1018,8 @@ smbclient --no-pass //<IP>/<Folder>
 smbclient -U 'username[%passwd]' -L [--pw-nt-hash] //<IP>/<Folder>
 smbclient -U '%' -N \\\\<IP>\\<SHARE>
 smbclient -U '<USER>' \\\\<IP>\\<SHARE>
+# Si hay tuneles de por medio se puede especificar puerto
+smbclient -p 4455 -L //<IP_ADDRESS>/ -U <USER> --password=<PASS>
 
 # Montar una share
 mount -t cifs -o "username=user,password=password" //x.x.x.x/share /mnt/share
