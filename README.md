@@ -1320,7 +1320,7 @@ Forward all packets recevied at Port_X Machine_A through Machine_B.
 
 On Machine_A execute:
 
-`ssh -D -Nf 0.0.0.0:<PORT_X> <user>@<IP_ADDR_Machine_B>`
+`ssh -Nf -D 0.0.0.0:<PORT_X> <user>@<IP_ADDR_Machine_B>`
 
 #### Remote Port Forwarding
 
