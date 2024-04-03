@@ -8,7 +8,7 @@ Expect Spanglish, this is a cheatsheet.
 
 - [Misc Commands from Linux](#misc-commands-from-linux)
    - [Strings and files manipulation](#strings-and-files-manipulation)
-   - [Setting and uploading Files to  WebDAV Server](#webdav-server-related)
+   - [Sending/uploading Files to HTTP/WebDAV Server](#uploadsend-files-to-webdavhttp-server)
    - [Some Netcat (nc, nc.exe, ncat) commands](#some-netcat-nc-ncexe-ncat-commands)
    - [Wireshark Filters and pcap related](#wireshark-filters-and-pcap-related)
    - [Basic AF git commands](#basic-af-git-commands)
