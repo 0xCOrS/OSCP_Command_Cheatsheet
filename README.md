@@ -33,6 +33,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
    - [Using PowerView](#using-powerview)
    - [Automated enumeration with Bloodhound](#automated-enumeration-through-bloodhound-and-its-data-collectors)
+- [AD LAteral Movement 101](#lateral-movement-in-ad-101)
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
