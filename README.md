@@ -494,6 +494,8 @@ Test-NetConnection -Port 445 <IP_ADDR>
 # Perform a port scan using powershell (and scanning only first 1024 ports)
 1..1024 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("<IP_ADDR>", $_)) "TCP port $_ is open"} 2>$null
 
+# Share a folder
+net share <share_name>=<path_to_the_folder_you_want_to_share> /GRANT:Everyone,FULL # Can replace Everyone with any username and FULL with READ or CHANGE
 ```
 
 [Back to top](#index)
