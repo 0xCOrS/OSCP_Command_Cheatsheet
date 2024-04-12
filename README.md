@@ -1258,7 +1258,7 @@ python snmpbrute.py -t <target_ip>
 
 [Back to top](#index)
 
-## SMTP Enumeration (25,465,587)
+## SMTP Enumeration
 
 ```
 # Scan with nmap
