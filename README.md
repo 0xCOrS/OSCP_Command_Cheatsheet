@@ -1237,6 +1237,7 @@ netsharegetinfo <share>
 |1.3.6.1.4.1.77.1.2.25 | User Accounts|
 |1.3.6.1.2.1.6.13.1.3 | TCP Local Ports|
 
+SNMP-Brute tool obtained from [here](https://github.com/SECFORCE/SNMP-Brute)
 ```
 # Scan for Hosts with UDP Port 161 open
 sudo nmap  -sU -p161 <ip_addr>
@@ -1246,6 +1247,12 @@ snmpwalk -c public -v1 -t 10 <ip_ADDR>
 
 # Enumerate a specific Branch of the MIB Tree (in this case Running Programs, branch can be selected from table above)
 snmpwalk -c public -v1 <IP_ADDR> 1.3.6.1.2.1.25.4.2.1.2
+
+# Enumerate the entire MIB using known community string
+snmpbulkwalk -c <community_string>] -v <SNMP_Version> [IP] .
+
+# Bruteforce community strings (even if target is using V3, try this)
+python snmpbrute.py -t <target_ip>
 ```
 
 [Back to top](#index)
