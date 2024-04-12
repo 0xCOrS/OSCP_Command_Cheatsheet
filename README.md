@@ -1249,7 +1249,7 @@ snmpwalk -c public -v1 -t 10 <ip_ADDR>
 snmpwalk -c public -v1 <IP_ADDR> 1.3.6.1.2.1.25.4.2.1.2
 
 # Enumerate the entire MIB using known community string
-snmpbulkwalk -c <community_string>] -v <SNMP_Version> [IP] .
+snmpbulkwalk -c <community_string> -v <SNMP_Version> <IP> .
 
 # Bruteforce community strings (even if target is using V3, try this)
 python snmpbrute.py -t <target_ip>
