@@ -43,6 +43,7 @@ Expect Spanglish, this is a cheatsheet.
 - [SMB Enumeration](#smb-enumeration)
 - [RPC Enumeration](#rpc-enumeration)
 - [SNMP Enumeration](#snmp-enumeration)
+- [SMTP Enumeration](#smtp-enumeration)
 - [Kerberos Attacks](#kerberos-attacks)
 - [Bruteforcing with Hydra](#bruteforce-hydra)
 - [Hascat, John and HashCracking related](#hascat-john-and-hashcracking-related)
