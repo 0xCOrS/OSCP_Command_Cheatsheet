@@ -1430,7 +1430,7 @@ Flag *-ddd* is added for verbosity
 
 Establish SSH connection/tunnel from Port_X of Machine_A to Port_Y of Machine_B and Forward to Port_Z of Machine_C.
 
-Then from our Kali we will be able to access Port Z Machine C by connecting to Port X of Machine A.
+Then from machine A (Kali) we will be able to access Port Z Machine C by connecting to Port X of Machine A.
 
 On Machine_A execute:
 
