@@ -1392,7 +1392,7 @@ hashcat -m 22951 -a 0 id_rsa.hash rockyou.txt   # $sshng$5$
 john --format=crypt hash.txt --wordlist:/your/wordlist/list.txt
 
 # KeePass Password Manager MAster Password cracking from Database file
-keepass2john database.kdbx
+keepass2john database.kdbx # Dont foget to delete the initial *database:* string before trying to crack it
 hashcat -m 13400 keepass.hash rockyou.txt -r rockyou-30000.rule --force
 
 # Extracting hashes from SAM and SYSTEM files With impacket-secretsdump
