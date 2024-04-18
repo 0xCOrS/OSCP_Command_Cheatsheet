@@ -845,7 +845,7 @@ Also, the SESSIONS collection method works better if it is combined with the --L
 bloodhound-python -d <domain> -u <username> -p <password> -gc <global_catalog_host> -c all -ns <nameserver_ip>
 
 # Collect Active Sessions Data through proxychains (observe the flag --dns-tcp)
-proxychains -q bloodhound-python -d <domain> -u <username> -p <password> -c LoggedOn -ns <dns_server_ip> -dc <dc_ip> --dns-tcp
+proxychains -q bloodhound-python -d <domain> -u <username> -p <password> -c LoggedOn -ns <dns_server_ip> -dc <dc_hostname> --dns-tcp
 
 # Collect Data From a Compromised Domain-Joined Computer
 Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "corp audit"    # Using PowerShell Module Sharphound.ps1
