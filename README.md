@@ -534,6 +534,20 @@ Get-LocalgroupMember <group_name>
 net localgroup <group_name>
 
 ```
+
+Useful privileges for Privilege Escalation:
+
+1. *SeImpersonate*
+2. *SeAssignPrimaryToken*
+3. *SeBackup*
+4. *SeRestore*
+5. *SeTakeOwnership*
+6. *SeCreateToken*
+7. *SeDebug*
+8. *SeLoadDriver*
+9. *SeTcb*
+10. *SeManageVolume*
+
 [Back to top](#index)
 
 ### Os info and Network Config
@@ -852,8 +866,8 @@ Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\stephanie\Desk
 .\sharphound.exe -CollectionMethods ALL    # Using sharphound.exe
 
 ```
-
 [Back to top](#index)
+
 
 ### Lateral Movement in AD 101
 
@@ -957,7 +971,6 @@ impacket-secretsdump -ntds ntds.dit.bak -system system.bak LOCAL
 ```
 
 [Back to top](#index)
-
 
 ## Port Scanning
 
