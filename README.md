@@ -498,6 +498,13 @@ Test-NetConnection -Port 445 <IP_ADDR>
 
 # Share a folder
 net share <share_name>=<path_to_the_folder_you_want_to_share> /GRANT:Everyone,FULL # Can replace Everyone with any username and FULL with READ or CHANGE
+
+# Compile from command line using VSStudio
+devenv.exe Expl.sln /Build "Release|x86"
+
+# Or add the path to the $env:Path and use devenv
+devenv Expl.sln /Build "Debug|x64"
+
 ```
 
 [Back to top](#index)
